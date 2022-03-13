@@ -1,0 +1,58 @@
+5) 
+#include <iostream>
+#include <string>
+using namespace std;
+ 
+int main(){
+    int b = 20;
+    for (int i = 1; i <= 39; i+=2 ){
+        cout << string(b, ' ') << string(i, 'X') << string(b, ' ') << endl;
+        b -= 1;
+    }
+    return 0;
+}
+
+6)
+#include <iostream>
+using namespace std;
+ 
+int main(){
+    int a, f=1;
+    while (a!=0){
+        cout << "Введите число: "; cin >> a;
+        if (a==0){
+            cout << "Вы ввели 0. Программа завершена.";
+            exit;
+        }
+        else{
+            for (int i=1; i<=a; ++i){
+                f *= i;
+            }
+            cout << "Факториал числа: " << f << endl;
+            f = 1;
+        }
+    }
+    return 0;
+}
+
+7)
+
+#include <iostream>
+using namespace std;
+
+int main(){
+    double a,b,s,c = 0.0;
+    cout << "Введите начальный вклад: "; cin >> a;
+    cout << "Введите количество лет: "; cin >> b;
+    cout << "Введите процентную ставку: "; cin >> c;
+    s = a;
+    for (int i=1; i<=b; ++i){
+        s += s*(c/100);
+    }
+    cout << "Через " << b << " лет Вы получите " << s << " долларов";
+    return 0;
+}
+
+8)
+
+
