@@ -214,3 +214,38 @@ int main(){
     return 0;
     
 }
+
+12)
+#include <iostream>
+using namespace std;
+
+int main(){
+    int a,b,c,d,r1,r2;
+    char e,o,p;
+    do{
+        cout << "Введите арифметическое действие, которое необходимо выполнить: ";
+        cin >> a >> e >> b >> o >> c >> e >> d;
+        switch (o){
+            case '+':
+                r1 = (a*d + b*c);
+                r2 = (b*d);
+                cout << "Результат операции: " << r1 << "/" << r2 << endl; break;
+            case '-':
+                r1 = (a*d-b*c);
+                r2 = (b*d);
+                cout << "Результат операции: " << r1 << "/" << r2 << endl; break;
+            case '*':
+                r1 = (a*c);
+                r2 = (b*d);
+                cout << "Результат операции: " << r1 << "/" << r2 << endl; break;
+            case '/':
+                r1 = (a*d);
+                r2 = (b*c);
+                cout << "Результат операции: " << r1 << "/" << r2 << endl; break;
+        }
+        cout << "Произвести еще одну операцию? (y/n) "; cin >> p;
+    }
+    while (p != 'n');
+    cout << "Программа завершена!";
+    return 0;
+}
