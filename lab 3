@@ -289,3 +289,22 @@ int main(){
     cout << "Программа завершена!";
     return 0;
 }
+
+9)
+
+#include <iostream>
+using namespace std;
+
+struct timee{
+    int hours, minutes, seconds;
+};
+
+int main(){
+    timee t1;
+    cout << "Введите количество часов: "; cin >> t1.hours;
+    cout << "Введите количество минут: "; cin >> t1.minutes;
+    cout << "Введите количество секунд: "; cin >> t1.seconds;
+    long totalsecs = t1.hours*3600 + t1.minutes*60 + t1.seconds;
+    cout << "Количество секунд всего: " << totalsecs;
+    return 0;
+}
