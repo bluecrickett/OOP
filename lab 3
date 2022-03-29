@@ -258,37 +258,18 @@ struct fraction{
     int c,z;
 };
 
-int main(){
-    int r1,r2;
-    fraction d1, d2;
-    char e,o,p;
-    do{
-        cout << "Введите арифметическое действие, которое необходимо выполнить: ";
-        cin >> d1.c >> e >> d1.z >> o >> d2.c >> e >> d2.z;
-        switch (o){
-            case '+':
-                r1 = (d1.c*d2.z + d1.z*d2.c);
-                r2 = (d1.z*d2.z);
-                cout << "Результат операции: " << r1 << "/" << r2 << endl; break;
-            case '-':
-                r1 = (d1.c*d2.z-d1.z*d2.c);
-                r2 = (d1.z*d2.z);
-                cout << "Результат операции: " << r1 << "/" << r2 << endl; break;
-            case '*':
-                r1 = (d1.c*d2.c);
-                r2 = (d1.z*d2.z);
-                cout << "Результат операции: " << r1 << "/" << r2 << endl; break;
-            case '/':
-                r1 = (d1.c*d2.z);
-                r2 = (d1.z*d2.c);
-                cout << "Результат операции: " << r1 << "/" << r2 << endl; break;
-        }
-        cout << "Произвести еще одну операцию? (y/n) "; cin >> p;
-    }
-    while (p != 'n');
-    cout << "Программа завершена!";
-    return 0;
-}
+int main(){ 
+   fraction d1,d2;
+   int v,n;
+   char e;
+   cout << "Введите первую дробь: ";
+   cin >> d1.c >> e >> d1.z;
+   cout << "Введите вторую дробь: ";
+   cin >> d2.c >> e >> d2.z;
+   v = (d1.c*d2.z+d1.z*d2.c);
+   n = d1.z*d2.z;
+   cout << "Сумма дробей равна: " << v << "/" << n;
+} 
 
 9)
 
