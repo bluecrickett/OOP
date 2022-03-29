@@ -308,3 +308,99 @@ int main(){
     cout << "Количество секунд всего: " << totalsecs;
     return 0;
 }
+
+10)
+
+#include <iostream>
+using namespace std;
+struct sterling{
+    int pounds, shillings, pence;
+};
+
+int main(){
+    sterling s1,s2;
+    int a3,b3,c3,e2,e1;
+    double v;
+    int d;
+    char e;
+    cout << "Введите первую сумму: "; cin >> s1.pounds >> e >> s1.shillings >> e >> s1.pence;
+    cout << "Введите вторую сумму: "; cin >> s2.pounds >> e >> s2.shillings >> e >> s2.pence;
+    cout << "Введите любое вещественное число: "; cin >> v; e2 = s1.shillings; e1 = s1.pounds;
+    do{
+        cout << "Что необходимо сделать? (0-завершить программу; 1-сложить"
+        << "суммы; 2-вычесть суммы; 3-умножить суммы на введеное число): ";
+        cin >> d;
+        switch(d){
+            case 1:
+                a3=s1.pounds+s2.pounds;
+                b3=s1.shillings+s2.shillings;
+                c3=s1.pence+s2.pence;
+                if (c3 >= 12){
+                    while (c3>=12){
+                        b3 += 1;
+                        c3 -= 12;
+                    }
+                }
+                if (b3 >= 20){
+                    while (b3>=20){
+                        a3 += 1;
+                        b3 -= 20;
+                    }
+                }
+                cout << "Сумма денежных сумм: " << a3 << '.' << b3 << '.' << c3 << endl << endl;
+                a3=0;b3=0;c3=0;
+                break;
+            case 2:
+                c3 = s1.pence-s2.pence;
+                if (c3 < 0){
+                    c3 += 12;
+                    e2--;
+                }
+                b3 = e2-s2.shillings;
+                if (b3 < 0){
+                    b3 += 20;
+                    e1--;
+                }
+                a3 = abs(e1-s2.pounds);
+                cout << "Разность денежных сумм: " << a3 << "." << b3 << "." << c3 << endl << endl;
+                a3=0;b3=0;c3=0;
+                break;
+            case 3:
+                c3 = s1.pence*v; b3 = s1.shillings*v; a3 = s1.pounds*v;
+                if (c3 >= 12){
+                    while (c3>=12){
+                        b3 += 1;
+                        c3 -= 12;
+                    }
+                }
+                if (b3 >= 20){
+                    while (b3>=20){
+                        a3 += 1;
+                        b3 -= 20;
+                    }
+                }
+                cout << "Произведение первой денежной суммы на число: " << a3 << "." << b3 << "." << c3 << endl;
+                a3=0;b3=0;c3=0;e2=s1.shillings;e1=s1.pounds;
+                c3 = s2.pence*v; b3 = s2.shillings*v; a3 = s2.pounds*v;
+                if (c3 >= 12){
+                    while (c3>=12){
+                        b3 += 1;
+                        c3 -= 12;
+                    }
+                }
+                if (b3 >= 20){
+                    while (b3>=20){
+                        a3 += 1;
+                        b3 -= 20;
+                    }
+                }
+                cout << "Произведение второй денежной суммы на число: " << a3 << "." << b3 << "." << c3 << endl << endl;
+                a3=0;b3=0;c3=0;
+                break;
+        }
+    }
+    while (d!=0);
+    cout << "Вы ввели 0. Программа завершена!";
+    return 0;
+    
+}
