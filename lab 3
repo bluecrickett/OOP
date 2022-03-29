@@ -1,0 +1,251 @@
+4)
+#include <iostream>
+using namespace std;
+
+struct employee{
+    int n;
+    float p;
+};
+
+int main(){
+    employee s1, s2, s3;
+    cout << "Введите номер первого сотрудника: ";
+    cin >> s1.n;
+    cout << "Введите величину пособия в долларах первого сотрудника: ";
+    cin >> s1.p;
+    cout << "Введите номер второго сотрудника: ";
+    cin >> s2.n;
+    cout << "Введите величину пособия в долларах второго сотрудника: ";
+    cin >> s2.p;
+    cout << "Введите номер третьего сотрудника: ";
+    cin >> s3.n;
+    cout << "Введите величину пособия в долларах третьего сотрудника: ";
+    cin >> s3.p;
+    cout << "Первый сотрудник: Номер - " << s1.n << "; Величина пособия - "
+    << s1.p <<"$\nВторой сотрудник: Номер - " << s2.n << "; Величина пособия - "
+    << s2.p <<"$\nТретий сотрудник: Номер - " << s3.n << "; Величина пособия - "
+    << s3.p << "$";
+    return 0;
+}
+
+5)
+#include <iostream>
+using namespace std;
+
+struct date{
+    int d, m, y;
+};
+
+int main(){
+    char s = '/';
+    date dd;
+    cout << "Введите дату в формате XX/XX/XXXX: ";
+    cin >> dd.d >> s >> dd.m >> s >> dd.y;
+    
+    cout << "Введенные данные: " << dd.d << s << dd.m << s << dd.y;
+    return 0;
+}
+
+6)
+#include <iostream>
+using namespace std;
+enum etype {laborer, secretary, manager, accountant, executive, researcher};
+
+int main(){
+    char b;
+    etype d;
+    cout << "Введите первую букву должности (laborer, secretary, manager," 
+    << "accountant, executive, researcher): ";
+    cin >> b;
+    switch(b){
+        case 'l':
+            d = laborer; break;
+        case 's':
+            d = secretary; break;
+        case 'm':
+            d = manager; break;
+        case 'a':
+            d = accountant; break;
+        case 'e':
+            d = executive; break;
+        case 'r':
+            d = researcher; break;
+    }
+    
+    switch(d){
+        case laborer:
+            cout << "Название должности: laborer"; break;
+        case secretary:
+            cout << "Название должности: secretary"; break;
+        case manager:
+            cout << "Название должности: manager"; break;
+        case accountant:
+            cout << "Название должности: accountant"; break;
+        case executive:
+            cout << "Название должности: executive"; break;
+        case researcher:
+            cout << "Название должности: researcher"; break;
+    }
+    return 0;
+}
+
+7)
+
+#include <iostream>
+using namespace std;
+enum etype {
+    laborer, secretary, manager, accountant, executive, researcher
+};
+
+struct employee{
+    float p;
+    int n;
+    etype dl;
+};
+
+struct date{
+    int d, m, y;
+};
+
+
+
+int main(){
+    char b, s = '/';
+    employee s1, s2, s3; 
+    date dt1, dt2, dt3;
+    
+    
+    cout << "Введите номер первого сотрудника: ";
+    cin >> s1.n;
+    cout << "Введите величину пособия в долларах первого сотрудника: ";
+    cin >> s1.p;
+    cout << "Введите дату принятия на работу первого сотрудника (XX/XX/XXXX) : ";
+    cin >> dt1.d >> s >> dt1.m >> s >> dt1.y;
+    cout << "Введите первую букву должности первого сотрудника" 
+    << " (laborer, secretary, manager,"  
+    << "accountant, executive, researcher): ";
+    cin >> b;
+    switch(b){
+        case 'l':
+            s1.dl = laborer; break;
+        case 's':
+            s1.dl = secretary; break;
+        case 'm':
+            s1.dl = manager; break;
+        case 'a':
+            s1.dl = accountant; break;
+        case 'e':
+            s1.dl = executive; break;
+        case 'r':
+            s1.dl = researcher; break;
+    }
+    cout << endl;
+    
+    
+    cout << "Введите номер второго сотрудника: ";
+    cin >> s2.n;
+    cout << "Введите величину пособия в долларах второго сотрудника: ";
+    cin >> s2.p;
+    cout << "Введите дату принятия на работу второго сотрудника (XX/XX/XXXX) : ";
+    cin >> dt2.d >> s >> dt2.m >> s >> dt2.y;
+    cout << "Введите первую букву должности второго сотрудника" 
+    << " (laborer, secretary, manager,"  
+    << "accountant, executive, researcher): ";
+    cin >> b;
+    switch(b){
+        case 'l':
+            s2.dl = laborer; break;
+        case 's':
+            s2.dl = secretary; break;
+        case 'm':
+            s2.dl = manager; break;
+        case 'a':
+            s2.dl = accountant; break;
+        case 'e':
+            s2.dl = executive; break;
+        case 'r':
+            s2.dl = researcher; break;
+    }
+    cout << endl;
+    
+    cout << "Введите номер третьего сотрудника: ";
+    cin >> s3.n;
+    cout << "Введите величину пособия в долларах третьего сотрудника: ";
+    cin >> s3.p;
+    cout << "Введите дату принятия на работу третьего сотрудника (XX/XX/XXXX) : ";
+    cin >> dt3.d >> s >> dt3.m >> s >> dt3.y;
+    cout << "Введите первую букву должности третьего сотрудника" 
+    << " (laborer, secretary, manager,"  
+    << "accountant, executive, researcher): ";
+    cin >> b;
+    switch(b){
+        case 'l':
+            s3.dl = laborer; break;
+        case 's':
+            s3.dl = secretary; break;
+        case 'm':
+            s3.dl = manager; break;
+        case 'a':
+            s3.dl = accountant; break;
+        case 'e':
+            s3.dl = executive; break;
+        case 'r':
+            s3.dl = researcher; break;
+    }
+    cout << endl;
+    
+    cout << "Первый сотрудник:\nНомер - " << s1.n << "\nВеличина пособия - "
+    << s1.p << "$\nДата принятия на работу - " << dt1.d << s << dt1.m << s
+    << dt1.y << "\n";
+    switch(s1.dl){
+        case laborer:
+            cout << "Должность - laborer\n\n"; break;
+        case secretary:
+            cout << "Должность - secretary\n\n"; break;
+        case manager:
+            cout << "Должность - manager\n\n"; break;
+        case accountant:
+            cout << "Должность - accountant\n\n"; break;
+        case executive:
+            cout << "Должность - executive\n\n"; break;
+        case researcher:
+            cout << "Должность - researcher\n\n"; break;
+    }
+    
+    cout << "Второй сотрудник:\nНомер - " << s2.n << "\nВеличина пособия - "
+    << s2.p << "$\nДата принятия на работу - " << dt2.d << s << dt2.m << s
+    << dt2.y << "\n";
+    switch(s2.dl){
+        case laborer:
+            cout << "Должность - laborer\n\n"; break;
+        case secretary:
+            cout << "Должность - secretary\n\n"; break;
+        case manager:
+            cout << "Должность - manager\n\n"; break;
+        case accountant:
+            cout << "Должность - accountant\n\n"; break;
+        case executive:
+            cout << "Должность - executive\n\n"; break;
+        case researcher:
+            cout << "Должность - researcher\n\n"; break;
+    }
+    
+    cout << "Третий сотрудник:\nНомер - " << s3.n << "\nВеличина пособия - "
+    << s3.p << "$\nДата принятия на работу - " << dt3.d << s << dt3.m << s
+    << dt3.y << "\n";
+    switch(s3.dl){
+        case laborer:
+            cout << "Должность - laborer\n\n"; break;
+        case secretary:
+            cout << "Должность - secretary\n\n"; break;
+        case manager:
+            cout << "Должность - manager\n\n"; break;
+        case accountant:
+            cout << "Должность - accountant\n\n"; break;
+        case executive:
+            cout << "Должность - executive\n\n"; break;
+        case researcher:
+            cout << "Должность - researcher\n\n"; break;
+    }
+    return 0;
+}
