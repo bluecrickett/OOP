@@ -1,0 +1,26 @@
+5)
+#include <iostream>
+using namespace std;
+
+void hms_to_secs(int h, int m, int s){
+    long sec = (h*3600)+(m*60)+s;
+    cout << "Общее количество секунд: " << sec << endl;
+}
+
+int main(){
+    int h,m,s;
+    long sec;
+    char o;
+    do{
+        cout << "Введите количество часов: "; cin >> h;
+        cout << "Введите количество минут: "; cin >> m;
+        cout << "Введите количетво секунд: "; cin >> s;
+        hms_to_secs(h,m,s);
+        cout << "Еще раз? (y/n) "; cin >> o;
+    }
+    while( o!= 'n');
+    cout << "Вы ввели n, программа завершена!"
+    return 0;
+}
+
+6)
