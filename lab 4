@@ -43,3 +43,31 @@ int main(){
     return 0;
 }
 
+9)
+#include <iostream>
+using namespace std;
+
+struct timee{
+    int hours, minutes, seconds;
+};
+
+void swap( timee t1, timee t2, timee t){
+    t = t1;
+    t1=t2;
+    t2=t;
+}
+
+int main(){
+    timee t1, t2;
+    char v;
+    cout << "Введите значения первого времени: "; 
+    cin >> t1.hours >> v >> t1.minutes >> v >> t1.seconds;
+    cout << "Введите значения второго времени: ";
+    cin >> t2.hours >> v >> t2.minutes >> v >> t2.seconds;
+    swap(t1,t2);
+    cout << "Значения первого времени: " << t1.hours << v << t1.minutes << v
+    << t1.seconds << endl;
+    cout << "Значения второго времени: " << t2.hours << v << t2.minutes << v
+    << t2.seconds;
+    return 0;
+}
