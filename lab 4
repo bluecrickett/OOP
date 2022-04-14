@@ -23,4 +23,23 @@ int main(){
     return 0;
 }
 
-6)
+8)
+
+#include <iostream>
+using namespace std;
+
+void swap(int a, int b){
+    int t = a;
+    a=b;
+    b=t;
+    cout << "Значение а: " << a << endl << "Значение b: " << b;
+}
+
+int main(){
+    int a,b;
+    cout << "Введите число a: "; cin >> a;
+    cout << "Введите число b: "; cin >> b;
+    swap(a,b);
+    return 0;
+}
+
