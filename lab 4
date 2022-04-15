@@ -1,73 +1,279 @@
-5)
 #include <iostream>
+#include <iomanip>
+#include <cmath>
+
 using namespace std;
 
-void hms_to_secs(int h, int m, int s){
-    long sec = (h*3600)+(m*60)+s;
-    cout << "Общее количество секунд: " << sec << endl;
+int for_disturb = 0;
+
+void zadanie(int a){
+	cout << setfill(' ') << setw(14) << "Задание №" << a << endl;
 }
 
-int main(){
-    int h,m,s;
-    long sec;
-    char o;
-    do{
-        cout << "Введите количество часов: "; cin >> h;
-        cout << "Введите количество минут: "; cin >> m;
-        cout << "Введите количетво секунд: "; cin >> s;
-        hms_to_secs(h,m,s);
-        cout << "Еще раз? (y/n) "; cin >> o;
-    }
-    while( o!= 'n');
-    cout << "Вы ввели n, программа завершена!"
-    return 0;
+//задание 5
+void hmsToSecs(int h, int m, int s){
+	long int total = (h*3600) + (m * 60) + s;
+	cout << "Время в секундах: " << total << endl;
 }
 
-8)
+void z5(){
+	zadanie(5);
 
-#include <iostream>
-using namespace std;
-
-void swap(int a, int b){
-    int t = a;
-    a=b;
-    b=t;
-    cout << "Значение а: " << a << endl << "Значение b: " << b;
+	char z,v; int h = 0, m = 0, s = 0;
+	do
+	{
+		cout << "Введите часы, минуты и секунды: "; cin >> h >> v >> m >> v >> s;
+		hmsToSecs(h, m, s);
+		cout << "Еще раз? (y/n) "; cin >> z;
+	} while (z != 'n');
+	cout << endl;
 }
 
-int main(){
-    int a,b;
-    cout << "Введите число a: "; cin >> a;
-    cout << "Введите число b: "; cin >> b;
-    swap(a,b);
-    return 0;
+//задание 6
+struct time{
+	int h;
+	int m;
+	int s;
+}t1, t2, t3;
+
+long int timeToSecs(struct time t){
+	long int totalS = t.h * 3600 + t.m * 60 + t.s;
+	return totalS;
 }
 
-9)
-#include <iostream>
-using namespace std;
+struct time secsToTime(long int sum){
+	t3.h = sum / 3600; 
+	sum = sum % 3600;
+	t3.m = sum / 60; 
+	t3.s = sum % 60;
+	return t3;
+}
 
-struct timee{
-    int hours, minutes, seconds;
+void z6(struct time t1, struct time t2, struct time t3){
+	zadanie(6);
+
+	
+	char v;
+	cout << "Введите время: "; cin >> t1.h >> v >> t1.m >> v >> t1.s;
+	cout << "Введите время: "; cin >> t2.h >> v >> t2.m >> v >> t2.s;
+	long int totalS1 = timeToSecs(t1); long int totalS2 = timeToSecs(t2);
+	long int sum = totalS1 + totalS2;
+	t3 = secsToTime(sum);
+	cout << "Результат: " << t3.h << ":" << t3.m << ":" << t3.s << endl;
+}
+
+//задание 7
+double power(double n, int p=2){
+	cout << "\nФункция с double и int: ";
+	return pow(n, p);
+}
+
+double power(char n, int p = 2){
+	cout << "Функция с char и int: " ;
+	return pow(n, p);
+}
+
+double power(int n, int p = 2){
+	cout << "Функция с int и int: ";	
+	return pow(n, p);
+}
+
+double power(long n, int p = 2){
+	cout << "Функция с long и int: ";
+	return pow(n, p);
+}
+
+double power(float n, int p = 2){
+	cout << "Функция с float и int: ";
+	return pow(n, p);
+}
+
+void z7(){
+	zadanie(7);
+
+	cout << power((double)5.5, 3) << endl;
+	cout << power('5', 3) << endl;
+	cout << power((int)5, 3) << endl;
+	cout << power((long)5, 3) << endl;
+	cout << power((float)5.5, 3) << endl;
+}
+
+//задание 8
+void swap(int &a, int &b){
+	int t = a;
+	a = b;
+	b = t;
+}
+
+void z8(){
+	zadanie(8);
+
+	int a; cout << "Введите первое число: "; cin >> a;
+	int b; cout << "Введите второе число: "; cin >> b;
+	swap(a, b);
+	cout << "a = " << a << "\nb = " << b<<endl;
+}
+
+//задание 9
+void swap(struct time &t1, struct time &t2, struct time &t3){
+	t3.h = t1.h; 
+	t1.h = t2.h; 
+	t2.h = t3.h; 
+	t3.m = t1.m;
+	t1.m = t2.m;
+	t2.m = t3.m;
+	t3.s = t1.s;
+	t1.s = t2.s;
+	t2.s = t3.s;
+}
+
+void z9(struct time t1, struct time t2, struct time t3){
+	zadanie(9);
+	char v;
+	cout << "Введите время:"; cin >> t1.h >> v >> t1.m >> v >> t1.s;
+	cout << "Введите время:"; cin >> t2.h >> v >> t2.m >> v >> t2.s;
+	swap(t1, t2, t3);
+	cout << "\nПервое время: " << t1.h << ":" << t1.m << ":" << t1.s << endl;
+	cout << "Второе время: " << t2.h << ":" << t2.m << ":" << t2.s << endl;
+}
+
+//задание 10
+void disturb_glob(){
+	cout << "Кол-во вызовов функции с глобальной переменной: " << ++for_disturb << endl;
+}
+
+void disturb_stat(){
+	static int for_dist = 0;
+	cout << "Кол-во вызовов функции со статической переменной: " << ++for_dist << endl;
+}
+
+void z10(){
+	zadanie(10);
+
+	for (int i = 0; i < 15; i++)
+	{
+		disturb_glob();
+	}
+	cout << endl;
+	for (int i = 0; i < 15; i++)
+	{
+		disturb_stat();
+	}
+	cout << endl;
+}
+
+//задание 11
+struct sterling{
+	int lb; int s; int p;
+}m1, m2;
+
+void fillStruct(struct sterling &m1, struct sterling &m2){
+	char s;
+	cout << "Введите сумму в старой системе: "; cin >> m1.lb >> s >> m1.s >> s >> m1.p;
+	cout << "Введите сумму в старой системе: "; cin >> m2.lb >> s >> m2.s >> s >> m2.p;
+}
+
+struct sterling sumStruct(struct sterling m1, struct sterling m2){
+	sterling mSum;
+	mSum.p = m1.p + m2.p;
+	mSum.s = m1.s + m2.s;
+	mSum.lb = m1.lb + m2.lb;
+	if (mSum.p > 12)
+	{
+		while(mSum.p >12){
+    		mSum.s += 1;
+    		mSum.p -= 12;
+		}
+	}
+	if (mSum.s > 20)
+	{
+	    while (mSum.s >20){
+	        mSum.lb += 1;
+	        mSum.s -=20;
+	    }
+	}
+	return mSum;
+}
+
+void displayStruct(struct sterling mSum){
+	cout << "Результат: " << mSum.lb << "." << mSum.s << "." << mSum.p << endl;
+}
+
+void z11(struct sterling m1, struct sterling m2){
+	zadanie(11);
+
+	fillStruct(m1,m2);
+	sterling mSum = sumStruct(m1, m2); displayStruct(mSum);
+}
+
+//задание 12
+struct fraction{
+	int n;
+	int d;
 };
 
-void swap( timee t1, timee t2, timee t){
-    t = t1;
-    t1=t2;
-    t2=t;
+void fadd(struct fraction f1, struct fraction f2){
+	fraction f3;
+	f3.n = ((f1.n * f2.d) + (f2.n * f1.d)); f3.d = f1.d * f2.d;
+	cout << f1.n << "/" << f1.d << " + " << f2.n << "/" << f2.d << " = " << f3.n << "/" << f3.d << endl;
 }
 
-int main(){
-    timee t1, t2;
-    char v;
-    cout << "Введите значения первого времени: "; 
-    cin >> t1.hours >> v >> t1.minutes >> v >> t1.seconds;
-    cout << "Введите значения второго времени: ";
-    cin >> t2.hours >> v >> t2.minutes >> v >> t2.seconds;
-    swap(t1,t2);
-    cout << "Значения первого времени: " << t1.hours << v << t1.minutes << v
-    << t1.seconds << endl;
-    cout << "Значения второго времени: " << t2.hours << v << t2.minutes << v
-    << t2.seconds;
-    return 0;
+void fsub(struct fraction f1, struct fraction f2){
+	fraction f3;
+	f3.n = ((f1.n * f2.d) - (f2.n * f1.d)); f3.d = f1.d * f2.d;
+	cout << f1.n << "/" << f1.d << " - " << f2.n << "/" << f2.d	<< " = " << f3.n << "/" << f3.d << endl;
 }
+
+void fmul(struct fraction f1, struct fraction f2){
+	fraction f3;
+	f3.n = (f1.n * f2.n); f3.d = f1.d * f2.d;
+	cout << f1.n << "/" << f1.d << " * " << f2.n << "/" << f2.d	<< " = " << f3.n << "/" << f3.d << endl;
+}
+
+void fdiv(struct fraction f1, struct fraction f2){
+	fraction f3;
+	f3.n = (f1.n * f2.d); f3.d = f1.d * f2.n;
+	cout << f1.n << "/" << f1.d << " / " << f2.n << "/" << f2.d	<< " = " << f3.n << "/" << f3.d << endl;
+}
+
+void z12(){
+	zadanie(12);
+	fraction f1, f2;
+	char s, oper, c;
+	cout << "Введите две дроби и между ними знак операции(+-*/ ) : "; 
+	cin >> f1.n >> s >> f1.d >> oper >> f2.n >> s >> f2.d;
+	do
+	{
+		switch (oper)
+		{
+		case('+'): 
+			fadd(f1, f2);
+			break;
+		case('-'):
+			fsub(f1, f2);
+			break;
+		case('*'):
+			fmul(f1, f2);
+			break;
+		case('/'):
+			fdiv(f1, f2);
+			break;
+		}
+		cout << "Продолжить? "; cin >> c;
+	} while (c != 'n');
+}
+
+int main()
+{
+	setlocale(0, "");
+	z5();
+	z6(t1, t2, t3);
+	z7();
+	z8();
+	z9(t1,t2, t3);
+	z10();
+	z11(m1, m2);
+	z12();
+	return 0;
+}
+
