@@ -1,0 +1,135 @@
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+using namespace std;
+
+void zadanie(int a){
+    cout << setfill(' ') << setw(14) << "Задание №" << a << endl;
+}
+
+//Задание 4
+class employee{
+    private:
+    int nomer;
+    float oklad;
+    
+    public:
+    employee(): nomer(0),oklad(0){}
+    employee(int nom, float okl): nomer(nom), oklad(okl){}
+    void get(){
+        cout << "Введите номер сотрудника: "; cin >> nomer;
+        cout << "Введите зарплату сотрудника: "; cin >> oklad;
+    }
+    
+    void out(){
+        cout << "Номер сотрудника: "<< nomer << endl << "Зарплата сотрудника: "
+        << oklad << endl << endl;
+    }
+};
+
+void z4(){
+    zadanie(4);
+    employee emp1, emp2, emp3;
+    emp1.get(); emp2.get(); emp3.get();
+    emp1.out(); emp2.out(); emp3.out();
+}
+
+//Задание 5
+class date{
+    private:
+    int month, day, year;
+    
+    public:
+    date(): month(0), day(0), year(0){}
+    date(int m, int d, int y): month(m), day(d), year(y){}
+    void getdate(){
+        char s;
+        cout << "Введите дату в формате DD/MM/YY: "; cin >> day >> s >> month
+        >> s >> year;
+    }
+    void showdate(){
+        cout << "Дата: " << day << "/" << month << "/" << year << endl;
+    }
+};
+
+void z5(){
+    zadanie(5);
+    date dt1;
+    dt1.getdate();
+    dt1.showdate();
+}
+
+//Задание 6
+class date6{
+    private:
+    public:
+    int month, day, year;
+    date6(): month(0), day(0), year(0){}
+    date6(int m, int d, int y): month(m), day(d), year(y){}
+};
+
+class employee6{
+    private:
+    int nomer;
+    float oklad;
+    date6 datee;
+    enum etype {laborer, secretary, manager, accountant, executive, researcher};
+    etype d;
+    char dolznost;
+    
+    public:
+    employee6(): nomer(0),oklad(0){}
+    employee6(int nom, float okl): nomer(nom), oklad(okl){}
+    void getemploy(){
+        char s;
+        cout << "Введите номер сотрудника: "; cin >> nomer;
+        cout << "Введите зарплату сотрудника: "; cin >> oklad;
+        cout << "Введите дату приема сотрудника на работу в формате DD/MM/YY: ";
+        cin >> datee.day >> s >> datee.month >> s >> datee.year;
+        cout << "Введите первую букву должности (laborer, secretary, manager," 
+        << "accountant, executive, researcher): "; cin >> dolznost;
+        switch(dolznost){
+            case 'l': d = laborer; break;
+            case 's': d = secretary; break;
+            case 'm': d = manager; break;
+            case 'a': d = accountant; break;
+            case 'e': d = executive; break;
+            case 'r': d = researcher; break;
+        }
+    }
+    void putemploy(){
+        cout << "Номер сотрудника: " << nomer << endl;
+        cout << "Зарплата сотрудника: " << oklad << endl;
+        cout << "Дата приема сотрудника на работу: " << datee.day << "/"
+        << datee.month << "/" << datee.year << endl;
+        switch(d){
+        case laborer:
+            cout << "Название должности: laborer" << endl; break;
+        case secretary:
+            cout << "Название должности: secretary" << endl; break;
+        case manager:
+            cout << "Название должности: manager" << endl; break;
+        case accountant:
+            cout << "Название должности: accountant" << endl; break;
+        case executive:
+            cout << "Название должности: executive" << endl; break;
+        case researcher:
+            cout << "Название должности: researcher" << endl; break;
+    }
+    }
+};
+
+void z6(){
+    zadanie(6);
+    employee6 emp1, emp2, emp3;
+    emp1.getemploy(); emp2.getemploy(); emp3.getemploy();
+    emp1.putemploy(); emp2.putemploy(); emp3.putemploy();
+}
+
+
+
+
+
+int main(){
+    z4(); z5(); z6();
+}
