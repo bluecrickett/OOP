@@ -126,10 +126,39 @@ void z6(){
     emp1.putemploy(); emp2.putemploy(); emp3.putemploy();
 }
 
+//Задание 7
+class angle{
+    private:
+    int grad;
+    float minutes;
+    char napr;
+    public:
+    angle(): grad(0), minutes(0), napr(0){}
+    angle(int g, float m, char n): grad(g), minutes(m), napr(n){}
+    void getkor(){
+        cout << "Введите градусы: "; cin >> grad;
+        cout << "Введите минуты: "; cin >> minutes;
+        cout << "Введите направление(N,S,W,E): "; cin >> napr;
+    }
+    void showkor(){
+        cout << grad << '\xF8' << minutes << "'" << napr << endl;
+    }
+};
 
+void z7(){
+    zadanie(7);
+    angle angl1;
+    char o;
+    do{
+        angl1.getkor();
+        angl1.showkor();
+        cout << "Еще раз? (y/n): "; cin >> o; 
+    }
+    while(o!='n');
+}
 
 
 
 int main(){
-    z4(); z5(); z6();
+    z4(); z5(); z6(); z7();
 }
