@@ -157,8 +157,29 @@ void z7(){
     while(o!='n');
 }
 
+//Задание 8
+class poryad_nom{
+    private:
+    int number;
+    static int poryad;
+    public:
+    poryad_nom(){
+        poryad++;
+        number = poryad;
+    }
+    void shownum(){
+        cout << "Мой порядковый номер: " << number << endl;
+    }
+};
+int poryad_nom::poryad = 0;
+
+void z8(){
+    zadanie(8);
+    poryad_nom nom1,nom2,nom3;
+    nom1.shownum(); nom2.shownum(); nom3.shownum();
+}
 
 
 int main(){
-    z4(); z5(); z6(); z7();
+    z4(); z5(); z6(); z7(); z8();
 }
