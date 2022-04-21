@@ -179,7 +179,44 @@ void z8(){
     nom1.shownum(); nom2.shownum(); nom3.shownum();
 }
 
+//Задание 9
+class fraction{
+    private:
+    int ch,zn;
+    public:
+    fraction(): ch(0), zn(0){}
+    fraction(int c, int z): ch(c), zn(z){}
+    void putdr(){
+        char s;
+        cout << "Введите дробь: "; cin >> ch >> s >> zn;
+    }
+    void showdr(){
+        cout << "Дробь: " << ch << "/" << zn << endl;
+    }
+    void summa(fraction f1, fraction f2){
+        ch = f1.ch*f2.zn+f2.ch*f1.zn;
+        zn = f1.zn*f2.zn;
+    }
+    void showrez(){
+        cout << "Сумма дробей: " << ch << "/" << zn << endl;
+    }
+};
+
+void z9(){
+    zadanie(9);
+    char o;
+    fraction fr1, fr2, frsum;
+    do{
+        fr1.putdr(); fr2.putdr();
+        fr1.showdr(); fr2.showdr();
+        frsum.summa(fr1, fr2);
+        frsum.showrez();
+        cout << "Еще раз? (y/n) "; cin >> o;
+    }
+    while(o != 'n');
+}
+
 
 int main(){
-    z4(); z5(); z6(); z7(); z8();
+    z4(); z5(); z6(); z7(); z8(); z9();
 }
