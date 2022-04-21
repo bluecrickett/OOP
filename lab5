@@ -350,15 +350,15 @@ void z12(){
         fract2.znam = number;
         fract2.lowterms();
         fract2.showfr12();
+        for(int j=1; j<number; j++){
+            fract1.chis = j;
+            fract1.znam = number;
+            fract3.umn(fract1, fract2);
+            fract3.lowterms();
+            fract3.showfr12();
+        }
+        cout << endl;
     }
-    for(int j=1; j<number; j++){
-        fract1.chis = j;
-        fract1.znam = number;
-        fract3.umn(fract1, fract2);
-        fract3.showfr12();
-    }
-    cout << endl;
-    
 }
 int main(){
     z4(); z5(); z6(); z7(); z8(); z9();
