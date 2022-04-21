@@ -252,8 +252,8 @@ void z10(){
 //Задание 11
 class fraction11{
     private: 
-    int chis,znam;
     public:
+    int chis,znam;
     fraction11():chis(0), znam(0){}
     void putfr(){
         char s;
@@ -301,7 +301,10 @@ class fraction11{
     znam = znam / gcd;
     }
     void showfr(){
-        cout << "Получившаяся дробь: " << chis << "/" << znam;
+        cout << "Получившаяся дробь: " << chis << "/" << znam << endl;
+    }
+    void showfr12(){
+        cout << chis << "/" << znam << " ";
     }
 };
 
@@ -327,7 +330,37 @@ void z11(){
     while (ot != 'n');
 }
 
+//Задание 12
+void z12(){
+    zadanie(12);
+    int number;
+    fraction11 fract1, fract2, fract3;
+    fract1.znam=fract2.znam=number;
+    cout << "Введите знаменатель: ";
+    cin >> number;
+    for (int i=1; i<number; i++){
+        fract1.chis = i;
+        fract1.znam = number;
+        fract1.lowterms();
+        fract1.showfr12();
+    }
+    cout << endl;
+    for (int a=1; a<number; a++){
+        fract2.chis = a;
+        fract2.znam = number;
+        fract2.lowterms();
+        fract2.showfr12();
+    }
+    for(int j=1; j<number; j++){
+        fract1.chis = j;
+        fract1.znam = number;
+        fract3.umn(fract1, fract2);
+        fract3.showfr12();
+    }
+    cout << endl;
+    
+}
 int main(){
     z4(); z5(); z6(); z7(); z8(); z9();
-    z10(); z11();
+    z10(); z11(); z12();
 }
