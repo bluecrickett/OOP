@@ -216,7 +216,40 @@ void z9(){
     while(o != 'n');
 }
 
+//Задание 10
+class ship{
+    private:
+    int numberk;
+    static int pork;
+    int gradk;
+    float minutesk;
+    char naprk;
+    public:
+    ship(): gradk(0), minutesk(0), naprk(0){
+        pork++;
+        numberk = pork;
+    }
+    ship(int gr, float min, char nap): gradk(gr), minutesk(min), naprk(nap){}
+    void getzn(){
+        cout << "Введите градусы: "; cin >> gradk;
+        cout << "Введите минуты: "; cin >> minutesk;
+        cout << "Введите напрвление(N,S,W,E): "; cin >> naprk;
+    }
+    void showzn(){
+        cout << "Порядковый номер корабля: " << numberk << endl << "Координаты"
+        << " корабля: " << gradk << '\xF8' << minutesk << "'" << naprk << endl;
+    }
+};
+
+int ship::pork = 0;
+void z10(){
+    zadanie(10);
+    ship sh1, sh2, sh3;
+    sh1.getzn(); sh2.getzn(); sh3.getzn();
+    sh1.showzn(); sh2.showzn(); sh3.showzn();
+}
 
 int main(){
     z4(); z5(); z6(); z7(); z8(); z9();
+    z10();
 }
