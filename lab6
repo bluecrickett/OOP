@@ -1,0 +1,217 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+void zadanie(int a){
+    cout << endl << "Задание №" << a << endl;
+}
+
+//Задание 4
+void fillArray(int* a, int n){
+	for (int i = 0; i < n; i++)
+	{
+		cout << "Введите элемент массива с индексом " << i << ": "; cin >> a[i];
+	}
+	cout << endl;
+}
+
+void maxInt(int* a, int n){
+	int max_i = 0, max_value = 0;
+
+	for (int i = 0; i < n; i++)
+	{
+		if (a[i] > max_value)
+		{
+			max_i = i;
+			max_value = a[i];
+		}
+	}
+	cout << "Максимальное значение: " << max_value << endl;
+	cout << "Его индекс: " << max_i << endl;
+}
+
+void z4(){
+	zadanie(4);
+
+	int a[5];
+	int* p = a;
+	fillArray(p, 5);
+	maxInt(p, 5);
+}
+
+//Задание 5
+class Fraction{
+private:
+	int ch, zn;
+public:
+	void set()
+	{
+		char s;
+		cout << "Введите дробь: "; cin >> ch >> s >> zn;
+	}
+	int get_ch()
+	{
+		return ch;
+	}
+	int get_zn()
+	{
+		return zn;
+	}
+};
+
+void z5(){
+	zadanie(5);
+
+	int kd;
+	cout << "Введите количество дробей: "; cin >> kd;
+	Fraction* arr_for_fraction = new Fraction[kd];
+	for (int i = 0; i < kd; i++)
+	{
+		cout << i + 1 << " дробь\n";
+		arr_for_fraction[i].set();
+		cout << endl;
+	}
+	double ch = 0.0, zn = 0.0, sum = 0.0;
+	for (int i = 0; i < kd; i++)
+	{
+		ch = arr_for_fraction[i].get_ch();
+		zn = arr_for_fraction[i].get_zn();
+		sum += ch / zn;
+	}
+	cout << "Среднее значение: " << sum / (double)kd << endl;
+	cout << endl;
+}
+
+//Задание 6
+enum Suit { clubs, diamonds, hearts, spades };
+const int jack = 11;
+const int queen = 12;
+const int king = 13;
+const int ace = 14;
+
+class card{
+    private:
+    int number;
+    Suit suit;
+    public:
+    card(){}// конструктор
+    void set ( int n, Suit s ) // установка значения
+    {suit = s; number = n;}
+    void display(); // показ карты
+};
+
+void card::display(){
+    if ( number >= 2 && number <= 10 ){
+        cout << number;
+    }
+    else{
+        switch (number){
+            case jack: cout << 'J'; break;
+            case queen: cout << 'Q'; break;
+            case king: cout << 'K'; break;
+            case ace: cout << 'A'; break;
+        }
+    }
+    switch (suit){
+        case clubs: cout << static_cast<char>( 5 ); break;
+        case diamonds: cout << static_cast<char>( 4 ); break;
+        case hearts: cout << static_cast<char>( 3 ); break;
+        case spades: cout << static_cast<char>( 6 ); break;
+    }
+}
+
+void z6( ){
+    card deck [52];
+    int j;
+    cout << endl;
+    for ( j = 0; j < 52; j++ ) // создаем упорядоченную колоду карт
+    {
+        int num = ( j % 13 ) + 2;
+        Suit su = Suit ( j / 13 );
+        deck [j].set(num, su);
+    }
+    // показываем исходную колоду
+    cout << "Исходная колода:\n";
+    for (j = 0; j < 52; j++){
+        deck [j].display();
+        cout << " ";
+        if ( !( ( j + 1 ) % 13 ) ) // начинаем новую строку после каждой 13-й карты
+        cout << endl;
+    }
+    srand(time(NULL)); // инициализируем генератор случайных чисел
+    for (j = 0; j < 52; j++){
+        int k = rand ( ) % 52; // выбираем случайную карту
+        card temp = deck [j]; // и меняем ее с текущей
+        deck[j] = deck[k];
+        deck[k] = temp;
+    }
+    // показываем перемешанную колоду
+    cout << "\nПеремешанная колода:\n";
+    for (int j = 0; j < 52; j++){
+        deck[j].display();
+        cout << " ";
+        if (!((j + 1) % 13)) // начинаем новую строку после каждой 13-й карты
+        {
+        cout << endl;
+        }
+    }
+    cout << endl;
+    cout << "Разделенная на 4 группы колода:\n";
+    card pack_0[13], pack_1[13], pack_2[13], pack_3[13];
+    for (int i = 0; i < 52; i++){
+        if (i <= 12){
+            pack_0[i % 13] = deck[i];
+        }
+        else{
+            if (i <= 25){
+                pack_1[i % 13] = deck[i];
+            }
+            else{
+                if (i <= 38){
+                    pack_2[i % 13] = deck[i];
+                }
+                else{
+                    pack_3[i % 13] = deck[i];
+                }
+            }
+        }
+    }
+    for (int i = 0; i < 52; i++){
+        if (i <= 12){
+            if (i == 0){
+                cout << "Группа карт №1:";
+            }
+            cout << ' ';
+            pack_0[i % 13].display();
+        }
+        else{
+            if (i <= 25){
+                if (i == 13){
+                    cout << "\nГруппа карт №2:";
+                }
+                cout << ' ';
+                pack_1[i % 13].display();
+            }
+            else{
+                if (i <= 38){
+                    if (i == 26){
+                        cout << "\nГруппа карт №3:";
+                    }
+                    cout << ' ';
+                    pack_2[i % 13].display();
+                }
+                else{
+                    if (i == 39){
+                        cout << "\nГруппа карт №4:";
+                    }
+                    cout << ' ';
+                    pack_3[i % 13].display();
+                }
+            }
+        }
+    }
+}
+
+int main(){
+    z4(); z5(); z6();
+}
