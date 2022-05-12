@@ -1,1 +1,51 @@
+#include <iostream>
+using namespace std;
 
+class Safearay{
+    private:
+    int LIMIT[100];
+    bool checkind(int ind){
+        if (ind >= 0 and ind < 100){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    public:
+    void putel(int ind, int val){
+        if (checkind(ind)){
+            LIMIT[ind] = val;
+        }
+        else{
+            cout << "Ошибка! Индекс не принадлежит границам массива!";
+            exit(0);
+        }
+    }
+    int getel(int ind){
+        if (checkind(ind)){
+            return LIMIT[ind];
+        }
+        else{
+            cout << "Ошибка! Индекс не принадлежит границам массива!";
+            exit(0);
+        }
+    }
+};
+
+int main(){
+    Safearay sfr;
+    int val8, ind8;
+    char b;
+    do{
+        cout << "Введите индекс(0-99): "; cin >>  ind8;
+        cout << "Введите значение, которое будет присвоено этому индексу: ";
+        cin >> val8;
+        sfr.putel(ind8, val8);
+        cout << "Ввести еще значение в массив? (y/n): "; cin >> b;
+    }
+    while(b != 'n');
+    cout << "Введите индекс массива, значение которого необходимо получить: ";
+    cin >> ind8;
+    cout << "Значение введеного индекса: " << sfr.getel(ind8);
+}
