@@ -405,6 +405,66 @@ void z9(){
 }
 
 //Задание 10
+class Safematrix{
+    private:
+        int LIMIT[10][10];
+        int real_a, real_b;
+        bool checkind(int ind_a, int ind_b){
+            if (ind_a >= 0 and ind_b >= 0 and ind_a < real_a and ind_b < real_b){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    public:
+        Safematrix(){
+            cout << "Введите количество строк массива(0-10): "; cin >> real_a;
+            cout << "Введите количество столбцов массива(0-10): "; cin >> real_b;
+        }
+        void put_el(int ind_a, int ind_b, int val_ab){
+            if (checkind(ind_a, ind_b)){
+                LIMIT[ind_a][ind_b] = val_ab;
+            }
+            else{
+                cout << "Ошибка! Какое-либо из значений индексов (или оба значения)"
+                << " не принадлежат границам массива!";
+                exit(0);
+            }
+        }
+        int get_el(int ind_a, int ind_b){
+            if (checkind(ind_a, ind_b)){
+                return LIMIT[ind_a][ind_b];
+            }
+            else{
+                cout << "Ошибка! Какое-либо из значений индексов (или оба значения)"
+                << " не принадлежат границам массива!";
+                exit(0);
+            }
+        }
+};
+
+void z10(){
+    zadanie(10);
+    Safematrix sfm;
+    int inda10, indb10, valab10;
+    char a;
+    do{
+        cout << "Введите индекс строки: "; cin >> inda10;
+        cout << "Введите индекс столбца: "; cin >> indb10;
+        cout << "Введите значение, которое будет принадлежать данному индексу: ";
+        cin >> valab10;
+        sfm.put_el(inda10, indb10, valab10);
+        cout << "Ввести в массив еще одно значение? (y/n) "; cin >> a;
+    }
+    while (a != 'n');
+    cout << "Введите индекс строки, значение по которому необходимо получить: ";
+    cin >> inda10;
+    cout << "Введите индекс столбца, значение по которому необходимо получить: ";
+    cin >> indb10;
+    cout << "Значение, принадлежащее заданным индексам: " << sfm.get_el(inda10, indb10)
+    << endl;
+}
 
 //Задание 11
 
@@ -418,5 +478,5 @@ void z11(){
 }
 
 int main(){
-    z4(); z5(); z6(); z7(); z8(); z9(); z11();
+    z4(); z5(); z6(); z7(); z8(); z9(); z10(); z11();
 }
