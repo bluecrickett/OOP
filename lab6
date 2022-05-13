@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <iomanip>
 using namespace std;
 
 void zadanie(int a){
@@ -7,34 +8,37 @@ void zadanie(int a){
 }
 
 //Задание 4
-void fillArray(int* a, int n){
-	for (int i = 0; i < n; i++)
+void fillArray(int* a, int n){ //функция заполнения массива значениями
+	for (int i = 0; i < n; i++) //цикл от нулевого до четвертого индекса массива, включительно
 	{
-		cout << "Введите элемент массива с индексом " << i << ": "; cin >> a[i];
+		cout << "Введите элемент массива с индексом " << i << ": "; cin >> a[i]; //ввод элементов массива
 	}
 	cout << endl;
 }
 
-void maxInt(int* a, int n){
-	int max_i = 0, max_value = 0;
+void maxInt(int* a, int n){ //функция нахождения максимального элемента и его значения
+	int max_i = 0, max_value = 0; //объявляем вспомогательные переменные, в которые будут
+	//вноситься максимальные значения элемента и индекса
 
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < n; i++) //цикл от нулевого до четвертого индекса, включительно
 	{
-		if (a[i] > max_value)
+		if (a[i] > max_value) //если рассматриваемый элемент больше вспомогательной
+		//переменной, то присваиваем значение элемента и его индекс вспомогательным
+		//переменным
 		{
 			max_i = i;
 			max_value = a[i];
 		}
 	}
-	cout << "Максимальное значение: " << max_value << endl;
+	cout << "Максимальное значение: " << max_value << endl; 
 	cout << "Его индекс: " << max_i << endl;
 }
 
 void z4(){
 	zadanie(4);
 
-	int a[5];
-	int* p = a;
+	int a[5]; //объявляем массив, состоящий из 5 значений
+	int* p = a; //указатель 
 	fillArray(p, 5);
 	maxInt(p, 5);
 }
@@ -477,6 +481,117 @@ void z11(){
     cout << endl;
 }
 
+//Задание 12
+class bMoney
+{
+private:
+	long double money;
+public:
+	void putmoney(char* str) //функция ввода сумм
+	{
+		char str_temp[] = "1234567890123456.78"; // массив, состоящий из 19 элементов
+		//16 из которых для целой части, 1 для точки и 2 для дробной части
+		    int i_ind = 0, j_ind = 0;
+		while (str[i_ind]) //цикл для всего массива
+		{
+			if (str[i_ind] == '$' or str[i_ind] == '\'') //проверка на символ
+			{
+				i_ind++;
+				continue;
+			}
+			else
+			{
+				str_temp[j_ind] = str[i_ind]; //копируем значения str в str_temp
+				i_ind++;
+				j_ind++;
+			}
+		}
+		str_temp[j_ind] = str[i_ind]; // копируем последний символ массива '\0'(конец строки)
+		char left_str[] = "1234567890123456", right_str[] = "78"; //объявляем два массива
+		//для целой и дробной частей
+		i_ind = 0;
+		j_ind = 0;
+		while (str_temp[i_ind])//цикл для всего массива
+		{
+			if (str_temp[i_ind] == '.') //проверка на символ точки
+			{
+				left_str[i_ind] = '\0'; //конец строки
+				right_str[0] = str_temp[i_ind + 1];//заносим дробную часть в соответствующий массив для дробной части
+				right_str[1] = str_temp[i_ind + 2];
+				break;
+			}
+			else
+			{
+				left_str[i_ind] = str_temp[i_ind]; //копируем значения str_temp в left_str
+				i_ind++;
+			}
+		}
+		i_ind = 0;
+		money = atoll(left_str) + atoll(right_str) / 100.0;
+		cout << "Вы ввели: " << fixed << setprecision(2) << money << endl;
+	}
+	void getmoney() // функция вывода сумм
+	{
+		char str[] = "$9'999'999'999'999'990.00"; // на 25 элементов.
+		unsigned long long int temp_money = money * 100; // преобразовываем дробную часть в целую
+		int count = 0; // объявляем счетчик для дальнейшего введения символа разделителя тысяч
+		str[3] = '\0';
+		str[2] = temp_money % 10 + 48;
+		temp_money /= 10;
+		str[1] = temp_money % 10 + 48;
+		temp_money /= 10;
+		str[0] = '.';
+		for (int i = 4;; i++)
+		{
+			count++;
+			for (int j = i; j > 0; j--)
+			{
+				str[j] = str[j - 1];
+			}
+			if (count == 4) // через каждые три символа вставляем символ разделителя тысяч
+			{
+				str[0] = '\'';
+				count = 0;
+					continue;
+			}
+			str[0] = temp_money % 10 + 48;
+			temp_money /= 10;
+			if (temp_money == 0)
+			{
+				cout << "$" << str << endl;
+				break;
+			}
+		}
+	}
+	void madd(bMoney* bM) // функция сложения суммы
+	{
+		money += bM->money;
+	}
+};
+
+void z12(){
+    zadanie(12);
+    char str_for_12[] = "$9'999'999'999'999'990.00"; // массив на 25 элементов
+	cout << "Введите первую сумму: "; cin >> str_for_12;
+	bMoney bM_0;
+	bM_0.putmoney(str_for_12);
+	cout << endl;
+	cout << "Ваша сумма: ";
+	bM_0.getmoney();
+	cout << endl;
+	cout << "Введите вторую сумму: "; cin >> str_for_12;
+	bMoney bM_1;
+	bM_1.putmoney(str_for_12);
+	cout << endl;
+	cout << "Ваша сумма: ";
+	bM_1.getmoney();
+	cout << endl;
+	cout << "Сумма сумм: ";
+	bM_0.madd(&bM_1);
+	bM_0.getmoney();
+	cout << endl;
+}
+
 int main(){
-    z4(); z5(); z6(); z7(); z8(); z9(); z10(); z11();
+    z4(); z5(); z6(); z7(); z8(); z9(); z10(); z11(); z12();
 }
