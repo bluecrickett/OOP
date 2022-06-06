@@ -1,4 +1,6 @@
 #include<iostream>
+#include <iomanip>
+
 using namespace std;
 
 void zadanie(int a){
@@ -70,8 +72,7 @@ class Time{
     }
 };
 
-class Fraction
-{
+class Fraction{
     private:
     int num, den;
     public:
@@ -142,6 +143,120 @@ class Fraction
     }
 };
 
+class bMoney{
+    private:
+    long double money;
+    public:
+    void set(long double temp){
+        money = temp;
+    }
+    void putmoney(char* str){ // Положить деньги
+        char str_temp[] = "1234567890123456.78"; // На 19 элементов: 2 для дробной части, 16 для целой
+        // и 1 для точки
+        // Копируем str в str_temp
+        int i_ind = 0, j_ind = 0;
+        while (str[i_ind]){
+            if (str[i_ind] == '$' || str[i_ind] == '\''){
+                i_ind++;
+                continue;
+            }
+            else{
+                str_temp[j_ind] = str[i_ind];
+                i_ind++;
+                j_ind++;
+            }
+        }
+        str_temp[j_ind] = str[i_ind]; // Не забываем про '\0'
+        // cout << "str_temp = " << str_temp << endl; // Для тестов
+        char left_str[] = "1234567890123456", right_str[] = "78";
+        //Обнулим i_ind и j_ind
+        i_ind = 0;
+        j_ind = 0;
+        while (str_temp[i_ind]){
+            if (str_temp[i_ind] == '.'){
+                left_str[i_ind] = '\0';
+                right_str[0] = str_temp[i_ind + 1];
+                right_str[1] = str_temp[i_ind + 2];
+                break;
+            }
+            else{
+                left_str[i_ind] = str_temp[i_ind];
+                i_ind++;
+            }
+        }
+        // cout << "left_str = " << left_str << endl; // Для тестов
+        // cout << "right_str = " << right_str << endl; // Для тестов
+        // Обнулим i_ind
+        i_ind = 0;
+        money = atoll(left_str) + atoll(right_str) / 100.0;
+        cout << "Вы ввели: " << fixed << setprecision(2) << money << endl;
+    }
+    void getmoney(){ // Вывести деньги
+        char str[] = "$9'999'999'999'999'990.00"; // На 25 элементов.
+        // 26 элемент = '\0'
+        unsigned long long int temp_money = money * 100; // Дробную часть в целую
+        int count = 0; // Будем использовать в качестве разделителя тысяч
+        // cout << temp_money << endl; // Для тестов
+        str[3] = '\0';
+        str[2] = temp_money % 10 + 48;
+        temp_money /= 10;
+        str[1] = temp_money % 10 + 48;
+        temp_money /= 10;
+        str[0] = '.';
+        for (int i = 4;; i++){
+            count++;
+            // Перемещаем прошлые элементы str в соответствии с новой итерацией
+            for (int j = i; j > 0; j--){
+                str[j] = str[j - 1];
+            }
+            if (count == 4){ // Вставляем символ разделитель тысяч
+                str[0] = '\'';
+                count = 0;
+                continue;
+            }
+            str[0] = temp_money % 10 + 48;
+            temp_money /= 10;
+            if (temp_money == 0){
+                cout << "$" << str << endl;
+                break;
+            }
+        }
+    }
+    void fromDollarsToPounds(){
+        long double temp = money;
+        int lb = (int)(temp / 50.0);
+        temp -= lb * 50;
+        int shilling = (int)(temp / 2.5);
+        temp -= shilling * 2.5;
+        int penalties = (int)(temp / (50.0 / 240.0));
+        cout << "Перевод в фунты-шиллинги-пенсы: £" << lb << '.' << shilling << '.' <<
+        penalties << endl;
+    }
+    // Присваиваем
+    bMoney& operator=(const long double& temp_val){
+        money = temp_val;
+        return *this;
+    }
+    // Складываем суммы
+    long double operator+(const bMoney& temp){
+        return money + temp.money;
+    }
+    // Вычитаем суммы
+    long double operator-(const bMoney& temp){
+        return money - temp.money;
+    }
+    // Умножение цены за изделие на их кол-во
+    long double operator*(const long double& temp){
+        return money * temp;
+    }
+    // Делим общую цену на цену за изделие
+    long double operator/(const bMoney& temp){
+        return money / temp.money;
+    }
+    long double operator/(const long double& temp){
+        return money / temp;
+    }
+};
 
 void z5(){
     zadanie(5);
@@ -195,6 +310,41 @@ void z7(){
     cout << endl;
 }
 
+void z8(){
+    zadanie(8);
+    bMoney temp_bM, genearal_bM, bM;
+    double num_of_prod = 0.0;
+    char str_for_8[] = "$9'999'999'999'999'990.00"; // На 25 элементов, т.к. 26 элемент = '\0'
+    char sb = '0';
+    do{
+        cout << "Введите общую сумму денег: "; cin >> str_for_8;
+        genearal_bM.putmoney(str_for_8);
+        cout << "Введите цену за изделие: "; cin >> str_for_8;
+        bM.putmoney(str_for_8);
+        cout << "Сложение двух сумм = ";
+        temp_bM = genearal_bM + bM;
+        temp_bM.getmoney();
+        cout << "Вычитание двух сумм = ";
+        temp_bM = genearal_bM - bM;
+        temp_bM.getmoney();
+        cout << endl;
+        cout << "Введите кол-во изделий: "; cin >> num_of_prod;
+        cout << "Общая цена = ";
+        genearal_bM = bM * num_of_prod;
+        genearal_bM.getmoney();
+        cout << "Кол-во изделей (хоть мы уже и знаем): ";
+        num_of_prod = genearal_bM / bM;
+        cout << num_of_prod << endl;
+        cout << "Цена за изделие (тоже уже знаем) = ";
+        bM = genearal_bM / num_of_prod;
+        bM.getmoney();
+        cout << endl;
+        cout << "Еще раз? (y / n): "; cin >> sb;
+    }
+    while (sb != 'n');
+    cout << endl;
+}
+
 int main(){
-    z5(); z6(); z7();
+    z5(); z6(); z7(); z8();
 }
