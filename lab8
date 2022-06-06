@@ -356,6 +356,292 @@ class Executive : public Manager{
     }
 };
 
+//для задания 11
+struct pair_for_11{
+int x, y;
+};
+
+class Stack{
+    protected:
+    enum { MAX = 10 }; // размер стека
+    int st[MAX]; // данные, хранЯщиесЯ в стеке
+    int top; // индекс последнего элемента в стеке
+    public:
+    Stack(){ // конструктор
+    top = -1;
+    }
+    void push(int var){ // помещение числа в стек
+    st[++top] = var;
+    }
+    int pop(){ // извлечение числа из стека
+    return st[top--];
+    }
+};
+
+class Stack2 : public Stack{
+    public:
+    void push(int var){ // помещение числа в стек
+        if (top >= MAX - 1){ // если стек полон, то ошибка
+            cout << "\nОшибка: стек полон"; exit(1);
+        }
+        Stack::push(var); // вызов функции push класса Stack
+    }
+    int pop(){ // извлечение числа из стека
+        if (top < 0){ // если стек пуст, то ошибка
+            cout << "\nОшибка: стек пуст\n"; exit(1);
+        }
+        return Stack::pop(); // вызов функции pop класса Stack
+    }
+};
+
+class PairStack : public Stack2{
+    public:
+    void push(pair_for_11& temp_pair){
+        Stack2::push(temp_pair.x);
+        Stack2::push(temp_pair.y);
+    }
+    pair_for_11 pop(){
+        pair_for_11 pf1;
+        pf1.y = Stack2::pop();
+        pf1.x = Stack2::pop();
+        return pf1;
+    }
+};
+
+//для задания 12
+class Sterling{
+    protected:
+    long lb;
+    int shilling, penalties;
+    public:
+    Sterling(){}
+    //getSterLing();
+    Sterling(double elementary){
+        int temp = 0;
+        temp = elementary * 240.0;
+        lb = temp / 240.0;
+        temp -= lb * 240;
+        shilling = temp / 12.0;
+        temp -= shilling * 12;
+        penalties = temp;
+        cout << "Эквивалентная сумма в старой форме записи: £" << lb << '.' << shilling
+        << '.' << penalties << endl;
+    }
+    Sterling(long t_lb, int t_shilling, int t_penalties){
+        lb = t_lb;
+        shilling = t_shilling;
+        penalties = t_penalties;
+        cout << "Вы ввели: £" << lb << '.' << shilling << '.' << penalties << endl;
+    }
+    void getSterLing(){
+        char sb = '0';
+        cout << "Введите значение суммы в формате £X.YY.ZZ: ";
+        cin >> sb >> lb >> sb >> shilling >> sb >> penalties;
+        cout << "Вы ввели: £" << lb << '.' << shilling << '.' << penalties << endl;
+    }
+    void putSterling(){
+        cout << "Сумма = £" << lb << '.' << shilling << '.' << penalties << endl;
+    }
+    void operator+(const Sterling& temp){
+        long general = 0;
+        general = (penalties + temp.penalties) + 12 * (shilling + temp.shilling) + 240 * (lb +
+        temp.lb);
+        long t_lb;
+        int t_shilling, t_penalties;
+        t_lb = general / 240;
+        general -= t_lb * 240;
+        t_shilling = general / 12;
+        general -= t_shilling * 12;
+        t_penalties = general;
+        cout << "Сложение сумм = £" << t_lb << '.' << t_shilling << '.' << t_penalties <<
+        endl;
+    }
+    void operator-(const Sterling& temp){
+        long general = 0;
+        general = (penalties - temp.penalties) + 12 * (shilling - temp.shilling) + 240 * (lb -
+        temp.lb);
+        long t_lb;
+        int t_shilling, t_penalties;
+        t_lb = general / 240;
+        general -= t_lb * 240;
+        t_shilling = general / 12;
+        general -= t_shilling * 12;
+        t_penalties = general;
+        cout << "Сложение сумм = £" << t_lb << '.' << t_shilling << '.' << t_penalties <<
+        endl;
+    }
+    void operator*(const double& t_double){
+        double buffer = (lb * 240.0 + shilling * 12.0 + penalties) / 240.0;
+        buffer *= t_double;
+        cout << "Умножение суммы на число = ";
+        long t_lb;
+        int t_shilling, t_penalties, temp = 0;
+        temp = buffer * 240.0;
+        t_lb = temp / 240.0;
+        temp -= t_lb * 240;
+        t_shilling = temp / 12.0;
+        temp -= t_shilling * 12;
+        t_penalties = temp;
+        cout << "£" << t_lb << '.' << t_shilling << '.' << t_penalties << endl;
+    }
+    void operator/(const double& t_double){
+        double buffer = (lb * 240.0 + shilling * 12.0 + penalties) / 240.0;
+        buffer /= t_double;
+        cout << "Деление суммы на число = ";
+        long t_lb;
+        int t_shilling, t_penalties, temp = 0;
+        temp = buffer * 240.0;
+        t_lb = temp / 240.0;
+        temp -= t_lb * 240;
+        t_shilling = temp / 12.0;
+        temp -= t_shilling * 12;
+        t_penalties = temp;
+        cout << "£" << t_lb << '.' << t_shilling << '.' << t_penalties << endl;
+    }
+    void operator/(const Sterling& t_sterling){
+        double buffer_1 = (lb * 240.0 + shilling * 12.0 + penalties) / 240.0,
+        buffer_2 = (t_sterling.lb * 240.0 + t_sterling.shilling * 12.0 +
+        t_sterling.penalties) / 240.0;
+        buffer_1 /= buffer_2;
+        cout << "Деление суммы на сумму = ";
+        long t_lb;
+        int t_shilling, t_penalties, temp = 0;
+        temp = buffer_1 * 240.0;
+        t_lb = temp / 240.0;
+        temp -= t_lb * 240;
+        t_shilling = temp / 12.0;
+        temp -= t_shilling * 12;
+        t_penalties = temp;
+        cout << "£" << t_lb << '.' << t_shilling << '.' << t_penalties << endl;
+    }
+};
+
+class Sterfrac : public Sterling{
+    protected:
+    int num, den;
+    public:
+    void set(){
+    char sb = '0';
+        cout << "Введите значение суммы в формате £X.YY.ZZ-N/D: ";
+        cin >> sb >> lb >> sb >> shilling >> sb >> penalties >> sb >> num >> sb >> den;
+        cout << "Вы ввели: £" << lb << '.' << shilling << '.' << penalties << '-'
+        << num << '/' << den << endl;
+    }
+    void get(){
+        cout << "£" << lb << '.' << shilling << '.' << penalties << '-'
+        << num << '/' << den << endl;
+    }
+    void add(const Sterfrac& sf){
+        double total = (double)(penalties + sf.penalties) + (double)(12 * (shilling +
+        sf.shilling))
+        + (double)(240 * (lb + sf.lb)) + ((double)num / (double)den)
+        + ((double)sf.num / (double)sf.den);
+        long t_lb;
+        int t_shilling, t_penalties;
+        t_lb = total / 240;
+        total -= t_lb * 240;
+        t_shilling = total / 12;
+        total -= t_shilling * 12;
+        t_penalties = total;
+        total -= t_penalties;
+        cout << "Сложение сумм = £" << t_lb << '.' << t_shilling << '.' << t_penalties << '-';
+        int i_total = total * 1000;
+        switch (i_total){
+            case 0: cout << "0/0" << endl; break;
+            case (1000 / 8): cout << "1/8"; break;
+            case (2000 / 8): cout << "2/8"; break;
+            case (3000 / 8): cout << "3/8"; break;
+            case (4000 / 8): cout << "4/8"; break;
+            case (5000 / 8): cout << "5/8"; break;
+            case (6000 / 8): cout << "6/8"; break;
+            case (7000 / 8): cout << "7/8"; break;
+        }
+    }
+    void sub(const Sterfrac& sf){
+        double total = (double)(penalties - sf.penalties) + (double)(12 * (shilling -
+        sf.shilling))
+        + (double)(240 * (lb - sf.lb)) + (((double)num / (double)den)
+        - ((double)sf.num / (double)sf.den));
+        long t_lb;
+        int t_shilling, t_penalties;
+        t_lb = total / 240;
+        total -= t_lb * 240;
+        t_shilling = total / 12;
+        total -= t_shilling * 12;
+        t_penalties = total;
+        total -= t_penalties;
+        cout << "Разность сумм = £" << t_lb << '.' << t_shilling << '.' << t_penalties << '-';
+        int i_total = total * 1000;
+        switch (i_total){
+            case 0: cout << "0/0" << endl; break;
+            case (1000 / 8): cout << "1/8"; break;
+            case (2000 / 8): cout << "2/8"; break;
+            case (3000 / 8): cout << "3/8"; break;
+            case (4000 / 8): cout << "4/8"; break;
+            case (5000 / 8): cout << "5/8"; break;
+            case (6000 / 8): cout << "6/8"; break;
+            case (7000 / 8): cout << "7/8"; break;
+        }
+    }
+    void mul(const Sterfrac& sf){
+        double total_1 = (double)(penalties) + (double)(12 * shilling) + (double)(240 * lb)
+        + ((double)num / (double)den);
+        double total_2 = (double)(sf.penalties)+(double)(12 * sf.shilling) + (double)(240 *
+        sf.lb)
+        + ((double)sf.num / (double)sf.den);
+        double total = total_1 * total_2;
+        long t_lb;
+        int t_shilling, t_penalties;
+        t_lb = total / 240;
+        total -= t_lb * 240;
+        t_shilling = total / 12;
+        total -= t_shilling * 12;
+        t_penalties = total;
+        total -= t_penalties;
+        cout << "Умножение сумм = £" << t_lb << '.' << t_shilling << '.' << t_penalties <<
+        '-';
+        int i_total = total * 1000;
+        switch (i_total){
+            case 0: cout << "0/0" << endl; break;
+            case (1000 / 8): cout << "1/8"; break;
+            case (2000 / 8): cout << "2/8"; break;
+            case (3000 / 8): cout << "3/8"; break;
+            case (4000 / 8): cout << "4/8"; break;
+            case (5000 / 8): cout << "5/8"; break;
+            case (6000 / 8): cout << "6/8"; break;
+            case (7000 / 8): cout << "7/8"; break;
+        }
+    }
+    void div(const Sterfrac& sf){
+        double total_1 = (double)(penalties)+(double)(12 * shilling) + (double)(240 * lb)
+        + ((double)num / (double)den);
+        double total_2 = (double)(sf.penalties) + (double)(12 * sf.shilling) + (double)(240 *
+        sf.lb)
+        + ((double)sf.num / (double)sf.den);
+        double total = total_1 / total_2;
+        long t_lb;
+        int t_shilling, t_penalties;
+        t_lb = total / 240;
+        total -= t_lb * 240;
+        t_shilling = total / 12;
+        total -= t_shilling * 12;
+        t_penalties = total;
+        total -= t_penalties;
+        cout << "Деление сумм = £" << t_lb << '.' << t_shilling << '.' << t_penalties << '-';
+        int i_total = total * 1000;
+        switch (i_total){
+            case 0: cout << "0/0" << endl; break;
+            case (1000 / 8): cout << "1/8"; break;
+            case (2000 / 8): cout << "2/8"; break;
+            case (3000 / 8): cout << "3/8"; break;
+            case (4000 / 8): cout << "4/8"; break;
+            case (5000 / 8): cout << "5/8"; break;
+            case (6000 / 8): cout << "6/8"; break;
+            case (7000 / 8): cout << "7/8"; break;
+        }
+    }
+};
+
 
 //задание 4
 void z4(){
@@ -432,6 +718,48 @@ void z10(){
     cout << endl;
 }
 
+//задание 11
+void z11(){
+    zadanie(11);
+    pair_for_11 pf1, pf1_1, pf2, pf2_1, pf3, pf3_1;
+    PairStack ps;
+    pf1.x = 10;
+    pf1.y = 11;
+    ps.push(pf1);
+    pf2.x = 20;
+    pf2.y = 21;
+    ps.push(pf2);
+    pf3.x = 30;
+    pf3.y = 31;
+    ps.push(pf3);
+    pf3_1 = ps.pop();
+    cout << "pf3_1: " << pf3_1.x << "; " << pf3_1.y << endl;
+    pf2_1 = ps.pop();
+    cout << "pf2_1: " << pf2_1.x << "; " << pf2_1.y << endl;
+    pf1_1 = ps.pop();
+    cout << "pf1_1: " << pf1_1.x << "; " << pf1_1.y << endl;
+    cout << endl;
+}
+
+//задание 12
+void z12(){
+    zadanie(12);
+    Sterfrac sf1, sf2;
+    sf1.set();
+    sf2.set();
+    sf1.add(sf2);
+    cout << endl;
+    sf1.sub(sf2);
+    cout << endl;
+    sf1.mul(sf2);
+    cout << endl;
+    sf1.div(sf2);
+    cout << endl;
+    cin.get();
+    cin.get();
+}
+
 int main(){
     z4(); z5(); z6(); z7(); z9(); z10();
+    z11(); z12();
 }
