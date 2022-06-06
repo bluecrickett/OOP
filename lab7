@@ -82,7 +82,15 @@ void z5(){
     cout << endl;
 }
 
-int main(){
-    z5();
+void z6(){
+    zadanie(6);
+    Time t1,t2;
+    cout << "Время2 = "; t2.display(); cout << endl;
+    cout << "Время1 - Время2:\n "; t1 - t2; cout << endl;
+    cout << "Время1 + Время2:\n "; t1 + t2; cout << endl;
+    cout << "Время1 * Время2:\n "; t1 * t2; cout << endl;
 }
 
+int main(){
+    z5(); z6();
+}
