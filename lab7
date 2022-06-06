@@ -1,6 +1,7 @@
 #include<iostream>
 #include <iomanip>
 
+
 using namespace std;
 
 void zadanie(int a){
@@ -258,6 +259,40 @@ class bMoney{
     }
 };
 
+class Safearay{
+    private:
+    int arr[100], count;
+    public:
+    Safearay(int bottom_bound = 0, int upper_bound = 100){
+        if (upper_bound - bottom_bound <= 100){
+            cout << "Границы принимаются" << endl;
+            count = upper_bound - bottom_bound;
+        }
+        else{
+            for (;;){
+                cout << "Неверные границы!\nВведите нижнюю границу: ";
+                cin >> bottom_bound;
+                cout << "Введите верхнюю границу: "; cin >> upper_bound;
+                if (upper_bound - bottom_bound <= 100){
+                    cout << "Границы принимаются" << endl;
+                    count = upper_bound - bottom_bound;
+                    break;
+                }
+            }
+        }
+    }
+    int bounds(){
+        return count;
+    }
+    int& operator[](int index){ // note: return by reference
+        if (index < 0 || index >= count){
+            cout << "\nИндекс выходит за пределы";
+            exit(1);
+        }
+        return arr[index];
+    }
+};
+
 void z5(){
     zadanie(5);
     Time t1;
@@ -345,6 +380,22 @@ void z8(){
     cout << endl;
 }
 
+void z9(){
+    zadanie(9);
+    int bottom_bound = 0, upper_bound = 100;
+    cout << "Введите нижнюю границу: "; cin >> bottom_bound;
+    cout << "Введите верхнюю границу: "; cin >> upper_bound;
+    Safearay sa(bottom_bound, upper_bound);
+    for (int i = 0; i < sa.bounds(); i++){
+        sa[i] = (i + 1) * 10;
+    }
+    for (int i = 0; i < sa.bounds(); i++){
+        cout << "Element " << i << " is " << sa[i] << endl;
+    }
+    cout << sa[sa.bounds()]; // Выход за границы
+    cout << endl;
+}
+
 int main(){
-    z5(); z6(); z7(); z8();
+    z5(); z6(); z7(); z8(); z9();
 }
