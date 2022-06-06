@@ -1,1 +1,88 @@
+#include<iostream>
+using namespace std;
+
+void zadanie(int a){
+    cout << endl << "Задание №" << a << endl;
+}
+
+class Time{
+    private:
+    unsigned int hours, minutes, seconds;
+    public:
+    Time(){
+        char sb = '0';
+        cout << "Введите время (часы:минуты:секунды): ";
+        cin >> hours >> sb >> minutes >> sb >> seconds;
+    }
+    void display(){
+        cout << "Время: " << hours << ':' << minutes << ':' << seconds;
+    }
+    void operator+(Time& temp){
+        unsigned int total_seconds = 0;
+        total_seconds = 3600 * (hours + temp.hours) + 60 * (minutes + temp.minutes) +
+        seconds + temp.seconds;
+        hours = total_seconds / 3600;
+        total_seconds -= hours * 3600;
+        minutes = total_seconds / 60;
+        total_seconds -= minutes * 60;
+        seconds = total_seconds;
+        cout << "Результат сложения: " << hours << ':' << minutes << ':' << seconds;
+    }
+    void operator-(Time& temp){
+        unsigned int total_seconds = 0;
+        total_seconds = 3600 * (hours - temp.hours) + 60 * (minutes - temp.minutes) +
+        seconds - temp.seconds;
+        hours = total_seconds / 3600;
+        total_seconds -= hours * 3600;
+        minutes = total_seconds / 60;
+        total_seconds -= minutes * 60;
+        seconds = total_seconds;
+        cout << "Результат вычитания: " << hours << ':' << minutes << ':' << seconds;
+    }
+    void operator*(Time& temp){
+        unsigned int total_seconds = 0;
+        total_seconds = 3600 * (hours * temp.hours) + 60 * (minutes * temp.minutes) +
+        seconds * temp.seconds;
+        hours = total_seconds / 3600;
+        total_seconds -= hours * 3600;
+        minutes = total_seconds / 60;
+        total_seconds -= minutes * 60;
+        seconds = total_seconds;
+        cout << "Результат умножения: " << hours << ':' << minutes << ':' << seconds;
+    }
+    // Прибавить 1:00:00
+    Time& operator++(){ // Префикс
+        hours++;
+        return *this;
+    }
+    Time& operator++(int){ // Постфикс
+        hours++;
+        return *this;
+    }
+    // Отнять 1:00:00
+    Time& operator--(){ // Префикс
+        hours--;
+        return *this;
+    }
+    Time& operator--(int){ // Постфикс
+        hours--;
+        return *this;
+    }
+};
+
+void z5(){
+    zadanie(5);
+    Time t1;
+    cout << "Время = "; t1.display(); cout << endl;
+    cout << "Время++ = "; (t1++).display(); cout << endl;
+    cout << "++Время = "; (++t1).display(); cout << endl;
+    cout << "--Время = "; (--t1).display(); cout << endl;
+    cout << "Время-- = "; (t1--).display(); cout << endl;
+    cout << "Итоговое время = "; t1.display(); cout << endl;
+    cout << endl;
+}
+
+int main(){
+    z5();
+}
 
