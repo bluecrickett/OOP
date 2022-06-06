@@ -1,8 +1,14 @@
 #include<iostream>
 #include <iomanip>
+#include <cmath>
+#include <ctype.h>
+#include <string>
 
 
 using namespace std;
+
+const double PI = 3.141592653589793;
+const double factor = PI / 180.0;
 
 void zadanie(int a){
     cout << endl << "Задание №" << a << endl;
@@ -293,6 +299,41 @@ class Safearay{
     }
 };
 
+class Polar{
+    private:
+    double radius, degrees;
+    public:
+    // Ввод данных
+    void set(){
+        cout << "Введите радиус: "; cin >> radius;
+        cout << "Введите угол в градусах: "; cin >> degrees;
+    }
+    // Вывод данных
+    void get(){
+        cout << "Радиус = " << radius << "\nУгол в градусах = " << degrees << endl;
+    }
+    void operator+(const Polar& temp){
+        double x = 0.0, x_t = 0.0, y = 0.0, y_t = 0.0,
+        x_new = 0.0, y_new = 0.0, radius_new = 0.0, degrees_new = 0.0;
+        x = radius * cos(degrees * factor);
+        y = radius * sin(degrees * factor);
+        cout << "Координаты первой точки в прямоугольной системе координат: " << x
+        << "; " << y << endl;
+        x_t = temp.radius * cos(temp.degrees * factor);
+        y_t = temp.radius * sin(temp.degrees * factor);
+        cout << "Координаты второй точки в прямоугольной системе координат: " <<
+        x_t << "; " << y_t << endl;
+        x_new = x + x_t;
+        y_new = y + y_t;
+        cout << "Координаты новой точки в прямоугольной системе координат: "
+        << x_new << "; " << y_new << endl;
+        radius_new = sqrt(pow(x_new, 2) + pow(y_new, 2));
+        degrees_new = acos(x_new / radius_new) * 180 / PI;
+        cout << "Координаты новой точки в полярной системе координат: "
+        << radius_new << "; " << degrees_new << endl;
+    }
+};
+
 void z5(){
     zadanie(5);
     Time t1;
@@ -396,6 +437,18 @@ void z9(){
     cout << endl;
 }
 
+void z10(){
+    zadanie(10);
+    Polar p1, p2;
+    cout << "Ввод полярных координат для первой точки.\n";
+    p1.set();
+    cout << "Ввод полярных координат для второй точки.\n";
+    p2.set();
+    p1 + p2;
+    cout << endl;
+}
+
 int main(){
-    z5(); z6(); z7(); z8(); z9();
+    z5(); z6(); z7(); z8(); z9(); 
+    z10();
 }
