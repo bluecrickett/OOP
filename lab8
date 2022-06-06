@@ -289,6 +289,72 @@ class Type : public Publication2{
     }
 };
 
+//для задания 10
+class Student{
+    private:
+    char school[LEN]; // name of school or university
+    char degree[LEN]; // highest degree earned
+    public:
+    void getedu(){
+        cout << " Введите название школы или университета: "; cin >> school;
+        cout << " Введите полученное образование: \n";
+        cout << " (Highschool, Bachelor's, Master's, PhD): "; cin >> degree;
+    }
+    void putedu() const{
+        cout << "\n Школа или университет: " << school;
+        cout << "\n Полученное образование: " << degree;
+    }
+};
+
+class employee{
+    private:
+    char name[LEN]; //employee name
+    unsigned long number; //employee number
+    public:
+    void getdata(){
+        cout << "\n Введите имя: "; cin >> name;
+        cout << "Введите номер: "; cin >> number;
+    }
+    void putdata() const{
+        cout << "\n Имя: " << name;
+        cout << "\n Номер: " << number;
+    }
+};
+
+class Manager : private employee, private Student{ //management
+    private:
+    char title[LEN]; //"vice-president" etc.
+    double dues; //golf club dues
+    public:
+    void getdata(){
+        employee::getdata();
+        cout << " Введите звание: "; cin >> title;
+        cout << " Введите взносы: "; cin >> dues;
+        Student::getedu();
+    }
+    void putdata() const{
+        employee::putdata();
+        cout << "\n Звание: " << title;
+        cout << "\n Взносы: " << dues;
+        Student::putedu();
+    }
+};
+
+class Executive : public Manager{
+    protected:
+    unsigned int bonus, amount;
+    public:
+    void getdata(){
+        Manager::getdata();
+        cout << " Введите размер годовой премии: "; cin >> bonus;
+        cout << " Введите кол-во акций в компании: "; cin >> amount;
+    }
+    void putdata() const{
+        Manager::putdata();
+        cout << endl << "Размер годовой премии: " << bonus << endl
+        << " Кол-во акций в компании: " << amount << endl;
+    }
+};
 
 
 //задание 4
@@ -357,6 +423,15 @@ void z9(){
     cout << endl;
 }
 
+//задание 10
+void z10(){
+    zadanie(10);
+    Executive exec;
+    exec.getdata();
+    exec.putdata();
+    cout << endl;
+}
+
 int main(){
-    z4(); z5(); z6(); z7(); z9();
+    z4(); z5(); z6(); z7(); z9(); z10();
 }
