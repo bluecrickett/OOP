@@ -1,6 +1,11 @@
 #include <iostream>
+#include <string>
+#include <cstring>
 
 using namespace std;
+
+const int LIMIT = 100;
+const int LEN = 80; //максимальная длина
 
 void zadanie(int a){
     cout << "Задание №" << a << endl;
@@ -102,6 +107,190 @@ class Employee_ver2 : public Employee{
     }
 };
 
+//для задания 6
+class Safearay{
+    protected:
+    int arr[LIMIT];
+    public:
+    int& operator[](int n){
+        if (n < 0 || n >= LIMIT){
+            cout << "\nВыход за границы\n";
+            exit(1);
+        }
+        return arr[n];
+    }
+};
+
+class Safearay_ver2 : public Safearay{
+    protected:
+    unsigned int count;
+    public:
+    Safearay_ver2(){
+        int bottom_bound = 0, upper_bound = 0;
+        cout << "Введите нижнюю границу: "; cin >> bottom_bound;
+        cout << "Введите верхнюю границу: "; cin >> upper_bound;
+        if (upper_bound - bottom_bound <= LIMIT){
+            count = upper_bound - bottom_bound;
+        }
+        else{
+            for (;;){
+                cout << "Ошибка! Границы введены неверно!\nВведите нижнюю границу: ";
+                cin >> bottom_bound;
+                cout << "Введите верхнюю границу: "; cin >> upper_bound;
+                if (upper_bound - bottom_bound <= LIMIT){
+                    cout << "Границы принимаются" << endl;
+                    count = upper_bound - bottom_bound;
+                    break;
+                }
+            }
+        }
+    }
+    int bounds(){
+        return count;
+    }
+};
+
+//для задания 7
+class Counter{
+    protected:
+    unsigned int count;
+    public:
+    Counter() : count(0) { }
+    Counter(int c) : count(c) { }
+    unsigned int get_count(){
+        return count;
+    }
+    Counter operator++(){ //incr count (prefix)
+        return Counter(++count);
+    }
+    Counter operator++(int){ //incr count (postfix)
+        return Counter(++count);
+    }
+};
+
+class CountDn : public Counter{
+    public:
+    CountDn() : Counter() { }
+    CountDn(int c) : Counter(c) { }
+    CountDn operator--(){ //decr count (prefix)
+        return CountDn(--count);
+    }
+    CountDn operator--(int){ //decr count (postfix)
+        return CountDn(--count);
+    }
+};
+
+//для задания 8(задание 8)
+class String{
+    protected:
+    enum { SZ = 80 };
+    char str[SZ];
+    public:
+    String(){
+        str[0] = '\0';
+    }
+    String(char s[]){
+        strcpy(str, s);
+    }
+    void display() const{ //показать строку
+        cout << str;
+    }
+    operator char* (){ //функция преобразования
+        return str;
+    }
+};
+
+class Pstring : public String{
+public:
+Pstring(char s[]); //конструктор
+};
+
+Pstring::Pstring(char s[]){ //конструктор для Pstring
+    if (strlen(s) > SZ - 1){
+        for (int j = 0; j < SZ - 1; j++)
+        str[j] = s[j];
+        str[SZ - 1] = '\0'; //не забываем про \0
+    }
+    else{ 
+        String(s); 
+    }
+}
+
+class Pstring2 : public Pstring{
+    public:
+    string left(unsigned int amount){
+        string temp = "";
+        for (int i = 0; i < amount; i++){
+            temp += str[i];
+        }
+        return temp;
+    }
+    string right(unsigned int amount){
+        string temp = "";
+        int len = strlen(str);
+        for (int i = len - amount; i < len; i++){
+            temp += str[i];
+        }
+        return temp;
+    }
+    string mid(unsigned int amount, unsigned int elementary){
+        string temp = "";
+        for (int i = elementary - 1; i < elementary - 1 + amount; i++){
+            temp += str[i];
+        }
+        return temp;
+    }
+};
+
+//для задания 9
+class Publication2 : public Publication{
+    protected:
+    string data_exit;
+    public:
+    void set_ver2(){
+        set();
+        cout << "Введите дату выхода книги: "; cin >> data_exit;
+    }
+    void get_ver2(){
+        get();
+        cout << "Дата выхода книги: " << data_exit << endl;
+    }
+};
+
+class Book : public Publication2{
+    protected:
+    unsigned int amount;
+    public:
+    void set_Book(){
+        set();
+        set_ver2();
+        cout << "Введите кол-во страниц: "; cin >> amount;
+    }
+    void get_Book(){
+        get();
+        get_ver2();
+        cout << "Страниц в книге: " << amount << endl;
+    }
+};
+
+class Type : public Publication2{
+    protected:
+    float amount_time;
+    public:
+    void set_for_type(){
+        set();
+        set_ver2();
+        cout << "Введите время записи книги в минутах: "; cin >> amount_time;
+    }
+    void get_for_type(){
+        get();
+        get_ver2();
+        cout << "Время записи книги в минутах: " << amount_time << endl;
+    }
+};
+
+
+
 //задание 4
 void z4(){
     zadanie(4);
@@ -120,6 +309,54 @@ void z5(){
     cout << endl;
 }
 
+//задание 6
+void z6(){
+    zadanie(6);
+    Safearay_ver2 sf_2;
+    for (int i = 0; i < sf_2.bounds(); i++){
+        sf_2[i] = (i + 1) * 10;
+    }
+    for (int i = 0; i < sf_2.bounds(); i++){
+        cout << "Элемент " << i << ": " << sf_2[i] << endl;
+    }
+    cout << endl;
+}
+
+//задание 7
+void z7(){
+    zadanie(7);
+    CountDn c1;
+    CountDn c2(100);
+    //display
+    cout << "c1=" << c1.get_count();
+    cout << "\nc2=" << c2.get_count();
+    ++c1; ++c1; ++c1; //increment c1
+    cout << "\nc1=" << c1.get_count(); //display it
+    --c2; --c2; //decrement c2
+    cout << "\nc2=" << c2.get_count(); //display it
+    CountDn c3 = --c2; //create c3 from c2
+    cout << "\nc3=" << c3.get_count() << endl; //display c3
+    c2++; c2++;
+    cout << "c2=" << c2.get_count() << endl;
+    c1--; c1--;
+    cout << "c1=" << c1.get_count() << endl;
+    cout << endl;
+}
+
+//задание 9
+void z9(){
+    zadanie(9);
+    Book book;
+    Type type;
+    book.set_Book();
+    type.set_for_type();
+    cout << "\n" << "Для класса Book: ";
+    book.get_Book();
+    cout << "\n" << "Для класса Type: ";
+    type.get_for_type();
+    cout << endl;
+}
+
 int main(){
-    z4(); z5();
+    z4(); z5(); z6(); z7(); z9();
 }
