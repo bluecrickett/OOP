@@ -1,0 +1,125 @@
+#include <iostream>
+
+using namespace std;
+
+void zadanie(int a){
+    cout << "Задание №" << a << endl;
+}
+
+//для задания 4
+class Publication{
+    protected:
+    string name;
+    float price;
+    public:
+    void set(){
+        cout << "Введите название книги: "; getline(cin, name);
+        cout << "Введите ее цену: "; cin >> price;
+    }
+    void get(){
+        cout << "Название книги: \"" << name << "\"\n"
+        << "Цена книги: " << price << endl;
+    }
+};
+
+class Disk : public Publication{
+    protected:
+    enum type_of_disk { CD, DVD };
+    int type;
+    public:
+    void set_for_disk(){
+        char s;
+        set();
+        cout << "Тип диска (c(CD) или d(DVD)): "; cin >> s;
+        switch (s){
+            case 'c': type = CD; break;
+            case 'd': type = DVD; break;
+            default:
+            cout << "Ошибка! Введите данные заново" << endl;
+            cin.get();
+            set_for_disk();
+            break;
+        }
+    }
+    void get_for_disk(){
+        get();
+        cout << "Тип диска: ";
+        switch (type){
+            case CD: cout << "CD\n"; break;
+            case DVD: cout << "DVD\n"; break;
+        }
+    }
+};
+
+//для задания 5
+class Employee{
+    protected:
+    string name;
+    unsigned int number;
+    public:
+    void set(){
+        cout << "Введите имя сотрудника: "; cin >> name;
+        cout << "Введите номер сотрудника: "; cin >> number;
+    }
+    void get(){
+        cout << "Имя сотрудника: " << name << endl;
+        cout << "Номер сотрудника: " << number << endl;
+    }
+};
+
+class Employee_ver2 : public Employee{
+    protected:
+    enum period { hourly, weekly, monthly };
+    period per;
+    double compensation;
+    public:
+    void set_ver2(){
+        char s;
+        set();
+        cout << "Введите зарплату сотрудника: "; cin >> compensation;
+        cout << "Введите период оплаты работы сотрудника (h(по часам), w(по неделям) или m(по месяцам): "; 
+        cin >> s;
+        switch (s){
+            case 'h': per = hourly; break;
+            case 'w': per = weekly; break;
+            case 'm': per = monthly; break;
+            default:
+            cout << "Ошибка! Введите данные заново\n";
+            cin.get();
+            set_ver2();
+            break;
+        }
+    }
+    void get_ver2(){
+        get();
+        cout << "Зарплата сотрудника: " << compensation << endl;
+        cout << "Период оплаты работы сотрудника: ";
+        switch (per){
+            case hourly: cout << "почасовая\n"; break;
+            case weekly: cout << "понедельная\n"; break;
+            case monthly: cout << "помесячная\n"; break;
+        }
+    }
+};
+
+//задание 4
+void z4(){
+    zadanie(4);
+    Disk disk;
+    disk.set_for_disk();
+    disk.get_for_disk();
+    cout << endl;
+}
+
+//задание 5
+void z5(){
+    zadanie(5);
+    Employee_ver2 emp;
+    emp.set_ver2();
+    emp.get_ver2();
+    cout << endl;
+}
+
+int main(){
+    z4(); z5();
+}
