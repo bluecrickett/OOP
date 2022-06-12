@@ -7,7 +7,7 @@ using namespace std;
 const int LIMIT = 100;
 const int LEN = 80; //максимальная длина
 
-void zadanie(int a){
+void zadanie(int a){ //объявление задания
     cout << "Задание №" << a << endl;
 }
 
@@ -17,11 +17,11 @@ class Publication{
     string name;
     float price;
     public:
-    void set(){
+    void set(){ //функция получения информации о книге
         cout << "Введите название книги: "; getline(cin, name);
         cout << "Введите ее цену: "; cin >> price;
     }
-    void get(){
+    void get(){ //функция вывода информации о книге
         cout << "Название книги: \"" << name << "\"\n"
         << "Цена книги: " << price << endl;
     }
@@ -32,7 +32,7 @@ class Disk : public Publication{
     enum type_of_disk { CD, DVD };
     int type;
     public:
-    void set_for_disk(){
+    void set_for_disk(){ //функция ввода информации о диске
         char s;
         set();
         cout << "Тип диска (c(CD) или d(DVD)): "; cin >> s;
@@ -46,7 +46,7 @@ class Disk : public Publication{
             break;
         }
     }
-    void get_for_disk(){
+    void get_for_disk(){ //функция вывода информации о диске
         get();
         cout << "Тип диска: ";
         switch (type){
@@ -62,11 +62,11 @@ class Employee{
     string name;
     unsigned int number;
     public:
-    void set(){
+    void set(){ //функция ввода информации о сотруднике
         cout << "Введите имя сотрудника: "; cin >> name;
         cout << "Введите номер сотрудника: "; cin >> number;
     }
-    void get(){
+    void get(){ //функция вывода информации о сотруднике
         cout << "Имя сотрудника: " << name << endl;
         cout << "Номер сотрудника: " << number << endl;
     }
@@ -78,7 +78,7 @@ class Employee_ver2 : public Employee{
     period per;
     double compensation;
     public:
-    void set_ver2(){
+    void set_ver2(){ //функция ввода
         char s;
         set();
         cout << "Введите зарплату сотрудника: "; cin >> compensation;
@@ -95,7 +95,7 @@ class Employee_ver2 : public Employee{
             break;
         }
     }
-    void get_ver2(){
+    void get_ver2(){ //функция вывода
         get();
         cout << "Зарплата сотрудника: " << compensation << endl;
         cout << "Период оплаты работы сотрудника: ";
@@ -110,10 +110,10 @@ class Employee_ver2 : public Employee{
 //для задания 6
 class Safearay{
     protected:
-    int arr[LIMIT];
+    int arr[LIMIT]; //массив 100 символов
     public:
     int& operator[](int n){
-        if (n < 0 || n >= LIMIT){
+        if (n < 0 || n >= LIMIT){ //если меньше нуля и больше 100, то выход за границы
             cout << "\nВыход за границы\n";
             exit(1);
         }
@@ -126,20 +126,20 @@ class Safearay_ver2 : public Safearay{
     unsigned int count;
     public:
     Safearay_ver2(){
-        int bottom_bound = 0, upper_bound = 0;
-        cout << "Введите нижнюю границу: "; cin >> bottom_bound;
-        cout << "Введите верхнюю границу: "; cin >> upper_bound;
-        if (upper_bound - bottom_bound <= LIMIT){
-            count = upper_bound - bottom_bound;
+        int db = 0, ub = 0;
+        cout << "Введите нижнюю границу: "; cin >> db; 
+        cout << "Введите верхнюю границу: "; cin >> ub;
+        if (ub - db <= LIMIT){
+            count = ub - db;
         }
         else{
             for (;;){
                 cout << "Ошибка! Границы введены неверно!\nВведите нижнюю границу: ";
-                cin >> bottom_bound;
-                cout << "Введите верхнюю границу: "; cin >> upper_bound;
-                if (upper_bound - bottom_bound <= LIMIT){
+                cin >> db;
+                cout << "Введите верхнюю границу: "; cin >> ub;
+                if (ub - db <= LIMIT){
                     cout << "Границы принимаются" << endl;
-                    count = upper_bound - bottom_bound;
+                    count = ub - db;
                     break;
                 }
             }
@@ -201,15 +201,15 @@ class String{
 };
 
 class Pstring : public String{
-public:
-Pstring(char s[]); //конструктор
+    public:
+    Pstring(char s[]); //конструктор
 };
 
-Pstring::Pstring(char s[]){ //конструктор для Pstring
+Pstring::Pstring(char s[]){ //конструктор
     if (strlen(s) > SZ - 1){
         for (int j = 0; j < SZ - 1; j++)
         str[j] = s[j];
-        str[SZ - 1] = '\0'; //не забываем про \0
+        str[SZ - 1] = '\0';
     }
     else{ 
         String(s); 
@@ -358,39 +358,39 @@ class Executive : public Manager{
 
 //для задания 11
 struct pair_for_11{
-int x, y;
+    int x, y;
 };
 
 class Stack{
     protected:
     enum { MAX = 10 }; // размер стека
-    int st[MAX]; // данные, хранЯщиесЯ в стеке
+    int st[MAX]; 
     int top; // индекс последнего элемента в стеке
     public:
     Stack(){ // конструктор
-    top = -1;
+        top = -1;
     }
-    void push(int var){ // помещение числа в стек
-    st[++top] = var;
+    void push(int var){ //функция помещения числа в стек
+        st[++top] = var;
     }
     int pop(){ // извлечение числа из стека
-    return st[top--];
+        return st[top--];
     }
 };
 
 class Stack2 : public Stack{
     public:
-    void push(int var){ // помещение числа в стек
-        if (top >= MAX - 1){ // если стек полон, то ошибка
-            cout << "\nОшибка: стек полон"; exit(1);
+    void push(int var){ //функция помещения числа в стек
+        if (top >= MAX - 1){
+            cout << "\nОшибка! Стек полон"; exit(1);
         }
-        Stack::push(var); // вызов функции push класса Stack
+        Stack::push(var); 
     }
-    int pop(){ // извлечение числа из стека
-        if (top < 0){ // если стек пуст, то ошибка
-            cout << "\nОшибка: стек пуст\n"; exit(1);
+    int pop(){ //функция извлечения числа из стека
+        if (top < 0){ 
+            cout << "\nОшибка! В стеке ничего нет\n"; exit(1);
         }
-        return Stack::pop(); // вызов функции pop класса Stack
+        return Stack::pop();
     }
 };
 
@@ -424,7 +424,7 @@ class Sterling{
         shilling = temp / 12.0;
         temp -= shilling * 12;
         penalties = temp;
-        cout << "Эквивалентная сумма в старой форме записи: £" << lb << '.' << shilling
+        cout << "Сумма в старой записи: £" << lb << '.' << shilling
         << '.' << penalties << endl;
     }
     Sterling(long t_lb, int t_shilling, int t_penalties){
@@ -440,7 +440,7 @@ class Sterling{
         cout << "Вы ввели: £" << lb << '.' << shilling << '.' << penalties << endl;
     }
     void putSterling(){
-        cout << "Сумма = £" << lb << '.' << shilling << '.' << penalties << endl;
+        cout << "Сумма: £" << lb << '.' << shilling << '.' << penalties << endl;
     }
     void operator+(const Sterling& temp){
         long general = 0;
@@ -453,7 +453,7 @@ class Sterling{
         t_shilling = general / 12;
         general -= t_shilling * 12;
         t_penalties = general;
-        cout << "Сложение сумм = £" << t_lb << '.' << t_shilling << '.' << t_penalties <<
+        cout << "Сумма сумм: £" << t_lb << '.' << t_shilling << '.' << t_penalties <<
         endl;
     }
     void operator-(const Sterling& temp){
@@ -467,7 +467,7 @@ class Sterling{
         t_shilling = general / 12;
         general -= t_shilling * 12;
         t_penalties = general;
-        cout << "Сложение сумм = £" << t_lb << '.' << t_shilling << '.' << t_penalties <<
+        cout << "Сумма сумм: £" << t_lb << '.' << t_shilling << '.' << t_penalties <<
         endl;
     }
     void operator*(const double& t_double){
@@ -655,16 +655,16 @@ void z4(){
 //задание 5
 void z5(){
     zadanie(5);
-    Employee_ver2 emp;
-    emp.set_ver2();
-    emp.get_ver2();
+    Employee_ver2 a;
+    a.set_ver2();
+    a.get_ver2();
     cout << endl;
 }
 
 //задание 6
 void z6(){
     zadanie(6);
-    Safearay_ver2 sf_2;
+    Safearay_ver2 sf_2; //ввод границ массива
     for (int i = 0; i < sf_2.bounds(); i++){
         sf_2[i] = (i + 1) * 10;
     }
@@ -721,39 +721,31 @@ void z10(){
 //задание 11
 void z11(){
     zadanie(11);
-    pair_for_11 pf1, pf1_1, pf2, pf2_1, pf3, pf3_1;
+    pair_for_11 ch1, ch11, ch2, ch21, ch3, ch31;
     PairStack ps;
-    pf1.x = 10;
-    pf1.y = 11;
-    ps.push(pf1);
-    pf2.x = 20;
-    pf2.y = 21;
-    ps.push(pf2);
-    pf3.x = 30;
-    pf3.y = 31;
-    ps.push(pf3);
-    pf3_1 = ps.pop();
-    cout << "pf3_1: " << pf3_1.x << "; " << pf3_1.y << endl;
-    pf2_1 = ps.pop();
-    cout << "pf2_1: " << pf2_1.x << "; " << pf2_1.y << endl;
-    pf1_1 = ps.pop();
-    cout << "pf1_1: " << pf1_1.x << "; " << pf1_1.y << endl;
+    ch1.x = 10; ch1.y = 11; ps.push(ch1);
+    ch2.x = 20; ch2.y = 21; ps.push(ch2);
+    ch3.x = 30; ch3.y = 31; ps.push(ch3);
+    ch31 = ps.pop();
+    cout << "Первая пара: " << ch31.x << "; " << ch31.y << endl;
+    ch21 = ps.pop();
+    cout << "Вторая пара: " << ch21.x << "; " << ch21.y << endl;
+    ch11 = ps.pop();
+    cout << "Третья пара: " << ch11.x << "; " << ch11.y << endl;
     cout << endl;
 }
 
 //задание 12
 void z12(){
     zadanie(12);
-    Sterfrac sf1, sf2;
-    sf1.set();
-    sf2.set();
-    sf1.add(sf2);
+    Sterfrac s1, s2;
+    s1.set(); s2.set(); s1.add(s2);
     cout << endl;
-    sf1.sub(sf2);
+    s1.sub(s2);
     cout << endl;
-    sf1.mul(sf2);
+    s1.mul(s2);
     cout << endl;
-    sf1.div(sf2);
+    s1.div(s2);
     cout << endl;
     cin.get();
     cin.get();
