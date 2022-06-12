@@ -117,7 +117,7 @@ class Array{ //models a normal C++ array
     }
 };
 
-//для задания 6
+//для задания 6 и 7
 class CASH{
     private:
     long double _s;
@@ -159,6 +159,7 @@ class CASH{
     void putmoney(){
         cout << "Указанная вами сумма равна: " << ldtoms(_s) << endl;
     }
+    friend CASH round(CASH m);
     CASH operator+(CASH m){
         return CASH(_s + m._s);
     }
@@ -185,6 +186,11 @@ CASH operator * (long double ld, CASH m){
 CASH operator / (long double ld, CASH m){
     return CASH(ld / m._s);
 }
+
+CASH round(CASH m){
+    long double temp = m._s;
+    return CASH(modfl(m._s, &temp) >= 0.5 ? temp + 1 : temp);
+};
 
 void z2(){
     zadanie(2);
@@ -300,6 +306,19 @@ void z6(){
     while (po != 'n');
 }
 
+void z7(){
+    zadanie(7);
+    CASH KOS;
+    char po;
+    do{
+        KOS.getmoney();
+        round(KOS).putmoney();
+        cout << "Хотите продолжить(Введиет 'y' or 'n')? ";
+        cin >> po;
+    } 
+    while (po != 'n');
+}
+
 int main(){
-    z2(); z3(); z4(); z5(); z6();
+    z2(); z3(); z4(); z5(); z6(); z7();
 }
