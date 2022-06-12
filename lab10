@@ -1,0 +1,305 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+using namespace std;
+
+void zadanie(int a){
+    cout << endl << "Задание №" << a << endl;
+}
+
+//для задания 2 и 5
+class publication{
+    private:
+    string title;
+    float price;
+    public:
+    virtual void getdata(){
+        cout << "\nEnter title: "; cin >> title;
+        cout << "Enter price: "; cin >> price;
+    }
+    virtual void putdata(){
+        cout << "\n\nTitle: " << title;
+        cout << "\nPrice: " << price;
+    }
+    virtual bool isOveersize(){
+    return false;
+    }
+};
+
+class book : public publication{
+    private:
+    int pages;
+    public:
+    void getdata(){
+        publication::getdata();
+        cout << "Enter number of pages: "; cin >> pages;
+    }
+    void putdata(){
+        publication::putdata();
+        cout << "\nPages: " << pages;
+    }
+    bool isOveersize(){
+        return pages > 800;
+    }
+};
+
+class tape : public publication{
+    private:
+    float time;
+    public:
+    void getdata(){
+        publication::getdata();
+        cout << "Enter playing time: "; cin >> time;
+    }
+    void putdata(){
+        publication::putdata();
+        cout << "\nPlaying time: " << time;
+    }
+    bool isOveersize(){
+        return time > 90;
+    }
+};
+
+//для задания 3
+class Distance{ //English Distance class
+    private:
+    int feet;
+    float inches;
+    public:
+    Distance(){ //constructor (no args)
+        feet = 0; inches = 0.0;
+    }
+    Distance(float fltfeet){ //constructor (one arg)
+        //feet is integer part
+        feet = static_cast<int>(fltfeet);
+        inches = 12 * (fltfeet - feet); //inches is what's left
+    } //constructor (two args)
+    Distance(int ft, float in) : feet(ft), inches(in){}
+    void showdist(){ //display distance
+        cout << feet << "\'-" << inches << '\"';
+    }
+    friend Distance operator * (Distance, Distance); //friend
+};
+
+Distance operator * (Distance d1, Distance d2){
+    float fltfeet1 = d1.feet + d1.inches / 12; //convert to float
+    float fltfeet2 = d2.feet + d2.inches / 12;
+    float multfeet = fltfeet1 * fltfeet2; //find the product
+    return Distance(multfeet); //return temp Distance
+}
+
+//для задания 4
+class Array{ //models a normal C++ array
+    private:
+    int* ptr; //pointer to Array contents
+    int size; //size of Array
+    public:
+    Array(int s){ //one-argument constructor
+        size = s; //argument is size of Array
+        ptr = new int[s]; //make space for Array
+    }
+    Array(const Array& a){ //one-argument constructor
+        size = a.size;
+        ptr = new int[size];
+        for (int i = 0; i < size; i++){
+            *(ptr + i) = *(a.ptr + i);//make space for Array
+        }
+    }
+    ~Array(){ //destructor
+        delete[] ptr;
+    }
+    int& operator [] (int j){ //overloaded subscript operator
+        return *(ptr + j);
+    }
+    Array& operator = (const Array& arr){
+        *this = Array(arr);
+        return *this;
+    }
+};
+
+//для задания 6
+class CASH{
+    private:
+    long double _s;
+    public:
+    CASH() {}
+    explicit CASH(long double sum) : _s(sum) {}
+    long double mstold(string sum){
+        string th = "";
+        for (int i = 0; i < sum.length(); i++){
+            if (isdigit(sum[i]) || sum[i] == ',')
+            th += sum[i];
+        }
+        return stold(th.c_str());
+    }
+    string ldtoms(long double sum){
+        if (sum >= 9999999999999989.00) return "";
+        ostringstream kos;
+        kos << fixed << sum;
+        string upkos = kos.str();
+        string newstr = "$";
+        int i, j;
+        for (i = 0; i < upkos.length() && (upkos[i] == '0' || upkos[i] == '.');
+        i++);
+        if (i > 1 && upkos[i - 1] == '.') i -= 2;
+        if (i == upkos.length()) return "$0,00";
+        for (j = upkos.length() - 1; j >= 0 && upkos[j] != '.'; j--);
+        j += 2;
+        for (; i <= j; i++){
+            if (i != 0 && i < j - 2 && (j - i + 1) % 3 == 0)newstr += '.';
+            newstr += upkos[i] == '.' ? ',' : upkos[i];
+        }
+        return newstr;
+    }
+    void getmoney(){
+        string sum;
+        cout << "Укажите сумму: " << "\n"; cin >> sum;
+        _s = mstold(sum);
+    }
+    void putmoney(){
+        cout << "Указанная вами сумма равна: " << ldtoms(_s) << endl;
+    }
+    CASH operator+(CASH m){
+        return CASH(_s + m._s);
+    }
+    CASH operator-(CASH m){
+        return CASH(_s - m._s);
+    }
+    CASH operator*(long double ld){
+        return CASH(_s * ld);
+    }
+    long double operator/(CASH m){
+        return _s / m._s;
+    }
+    CASH operator/(long double ld){
+        return CASH(_s / ld);
+    }
+    friend CASH operator * (long double ld, CASH m);
+    friend CASH operator / (long double ld, CASH m);
+};
+
+CASH operator * (long double ld, CASH m){
+    return CASH(m._s * ld);
+}
+
+CASH operator / (long double ld, CASH m){
+    return CASH(ld / m._s);
+}
+
+void z2(){
+    zadanie(2);
+    publication* pubarr[100]; //array of ptrs to pubs
+    int n = 0; //number of pubs in array
+    char choice; //user's choice
+    do {
+    cout << "\nEnter data for book or tape (b/t)? ";
+    cin >> choice;
+    if (choice == 'b') //make book object
+    pubarr[n] = new book; // put in array
+    else //make tape object
+    pubarr[n] = new tape; // put in array
+    pubarr[n++]->getdata(); //get data for object
+    cout << " Enter another (y/n)? "; //another pub?
+    cin >> choice;
+    } while (choice == 'y'); //cycle until not 'y'
+    for (int j = 0; j < n; j++){ //cycle thru all pubs
+        pubarr[j]->putdata(); //print data for pub
+    }
+    cout << endl;
+}
+
+void z3(){
+    zadanie(3);
+    Distance dist1(3, 6.0); //make some distances
+    Distance dist2(2, 3.0);
+    Distance dist3;
+    dist3 = dist1 * dist2; //multiplication
+    dist3 = 10.0 * dist3; //mult and conversion
+    //display all distances
+    cout << "\ndist1 = "; dist1.showdist();
+    cout << "\ndist2 = "; dist2.showdist();
+    cout << "\ndist3 = "; dist3.showdist();
+    cout << endl;
+}
+
+void z4(){
+    zadanie(4);
+    const int ASIZE = 10;
+     Array arr1(ASIZE);
+    for (int j = 0; j < ASIZE; j++){
+        arr1[j] = j * j;
+    }
+    Array arr2(arr1);
+    arr2[0] = 1;
+    Array arr3 = arr1;
+    arr3[0] = 2;
+    for (int j = 0; j < ASIZE; j++){
+        cout << arr1[j] << ' ';
+    }
+    cout << endl;
+    for (int j = 0; j < ASIZE; j++){
+        cout << arr2[j] << ' ';
+    }
+    cout << endl;
+    for (int j = 0; j < ASIZE; j++){
+        cout << arr3[j] << ' ';
+    }
+    cout << endl;
+}
+
+void z5(){
+    zadanie(5);
+    publication* pubarr[100]; //array of ptrs to pubs
+    int n = 0; //number of pubs in array
+    char choice; //user's choice
+    do {
+        cout << "\nEnter data for book or tape (b/t)? "; cin >> choice;
+        if (choice == 'b')pubarr[n] = new book;
+        else pubarr[n] = new tape; // put in array
+        do {
+            pubarr[n]->getdata();
+            if (pubarr[n]->isOveersize())
+                cout << "Oversized!\n";
+            else break;
+        } while (true);
+        n++;
+        cout << " Enter another (y/n)? "; //another pub?
+        cin >> choice;
+    } while (choice == 'y'); //cycle until not 'y'
+    for (int j = 0; j < n; j++) //cycle thru all pubs
+    pubarr[j]->putdata(); //print data for pub
+    cout << endl;
+}
+
+void z6(){
+    zadanie(6);
+    CASH first, second;
+    long double s;
+    char po;
+    do{
+        first.getmoney();
+        second.getmoney();
+        cout << "Введите double: "; cin >> s;
+        cout << "first + second: ";
+        (first + second).putmoney();
+        cout << "first - second: ";
+        (first - second).putmoney();
+        cout << "first * s: ";
+        (first * s).putmoney();
+        cout << "first / second: ";
+        cout << (first / second) << endl;
+        cout << "first/ s: ";
+        (first / s).putmoney();
+        cout << "s *first: ";
+        (s * first).putmoney();
+        cout << "s / first: ";
+        (s / first).putmoney();
+        cout << "Хотите продолжить? (Введите 'y' or 'n')? ";
+        cin >> po;
+    } 
+    while (po != 'n');
+}
+
+int main(){
+    z2(); z3(); z4(); z5(); z6();
+}
