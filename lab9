@@ -5,6 +5,13 @@ using namespace std;
 
 const int len = 7;
 
+const int leng = 100;
+float koscash[leng];
+int upcash = 0;
+int a[leng];
+int highcash = 0;
+
+
 void zadanie(int a){
     cout << endl << "Задание №" << a << endl;
 }
@@ -89,6 +96,46 @@ void linklist::display(){
     }
 }
 
+class getmassif{
+    private:
+    int* kos[10];
+    public:
+    getmassif(){
+        for (int i = 0; i < 10; i++)
+        *(kos + i) = new int[10];
+    }
+    int& operator[](int index){
+        return *(*(kos + index / 10) + index % 10);
+    }
+};
+
+class Float{
+    private:
+    int plus;
+    public:
+    Float(float value){
+        plus = upcash;
+        koscash[upcash++] = value;
+    }
+    int operator&(){
+        return plus;
+    }
+};
+
+class speFloat{
+    private:
+    int addr;
+    public:
+    speFloat(int ptr){
+        addr = highcash;
+        a[highcash++] = ptr;
+    }
+    float& operator*(){
+        return koscash[a[addr]];
+    }
+};
+
+
 void z5(){
     zadanie(5);
     float a[len], a2[len], a3[len];
@@ -149,6 +196,7 @@ void z7(){
 }
 
 void z8(){
+    zadanie(8);
     linklist li;
     li.additem(25);
     li.additem(36);
@@ -157,6 +205,62 @@ void z8(){
     li.display();
 }
 
+void z9(){
+    zadanie(9);
+    int i, j;
+    int a1[10], a2[10], a3[10], a4[10], a5[10];
+    int a6[10], a7[10], a8[10], a9[10], a10[10];
+    int* arr[] = { a1, a2, a3, a4, a5, a6, a7, a8, a9, a10 };
+    for ( i = 0; i < 10; i++)
+    for (int j = 0; j < 10; j++)
+    arr[i][j] = i * j;
+    for (i = 0; i < 10; i++, cout << endl)
+    for (j = 0; j < 10; j++, cout << " ")
+    cout << setw(6) << arr[i][j];
+}
+
+void z10(){
+    zadanie(10);
+    int i,j;
+    int* a[10];
+    for ( i = 0; i < 10; i++){
+        *(a + i) = new int[10];
+        for (j = 0; j < 10; j++){
+            *(*(a + i) + j) = i * j;
+        }
+    }
+    for (i = 0; i < 10; i++, cout << endl){
+        for (j = 0; j < 10; j++, cout << " "){
+            cout << setw(6) << *(*(a + i) + j);
+        }
+    }
+}
+
+void z11(){
+    zadanie(11);
+    getmassif a;
+    for (int i = 0; i < 100; i++){
+        a[i] = i;
+    }
+    for (int i = 0; i < 100; i++){
+        cout << (i % 10 == 0 ? "\n" : " ") << setw(5) << a[i];
+    }
+}
+
+void z12(){
+    zadanie(12);
+    Float a = -1.234f; // определяемиинициализируем
+    Float b = 5.678f;
+    speFloat a2 = &b;// две вещественные переменные
+    speFloat b2 = &a;
+    cout << "*ptrl = " << *b2 << endl; // получаем значения переменных
+    cout << "*ptr2 = " << *a2 << endl; // и выводим на экран
+    *b2 = 7.123f; // присваиваем новые значения
+    *a2 = 8.456f; // переменным, адресованным через указатели
+    cout << "*ptrl = " << *b2 << endl; // снова получаем значения
+    cout << "*ptr2 = " << *a2 << endl; // и выводим на экран
+}
+
 int main(){
-    z5(); z6(); z7(); z8();
+    z5(); z6(); z7(); z8(); z9(); z10(); z11(); z12();
 }
