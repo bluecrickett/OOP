@@ -1,7 +1,20 @@
 #include <iostream>
 #include <string>
+#include <stdlib.h>
+#include <stdio.h>
+#include <conio.h>
+#include <cstring>
 #include <sstream>
+#include <cmath>
+#include <cstdlib> //for random()
+#include <ctime>
 using namespace std;
+
+const int LIMIT = 100;
+const int MAX = 100;
+const int CPF = 5; //columns per furlong
+const int maxHorses = 7; //maximum number of horses
+class track; //for forward references
 
 void zadanie(int a){
     cout << endl << "Задание №" << a << endl;
@@ -192,6 +205,284 @@ CASH round(CASH m){
     return CASH(modfl(m._s, &temp) >= 0.5 ? temp + 1 : temp);
 };
 
+//для задания 8 и 11
+class Sign{
+    public:
+    virtual float getNumber() = 0;
+    virtual char getOperand() = 0;
+};
+
+class Operand : public Sign{
+    private:
+    char _oper;
+    public:
+    Operand(char oper) : _oper(oper){}
+    char getOperand(){
+        return _oper;
+    }
+    float getNumber(){
+        return 0;
+    }
+};
+
+class CHIS : public Sign{
+    private:
+    float _score;
+    public:
+    CHIS(float score) : _score(score) {}
+    float getNumber(){
+        return _score;
+    }
+    char getOperand(){
+        return 0;
+    }
+};
+
+class Stack{
+    private:
+    Sign* a[LIMIT];
+    int _next;
+    public:
+    Stack() : _next(0) {}
+    void push(Sign* el){
+        if (_next == LIMIT){
+            cout << "Переполнено!";
+            return;
+        }
+        a[_next++] = el;
+    }
+    Sign* pop(){
+        if (_next == 0){
+            cout << "Пусто!"; exit(0);
+        }
+        return a[--_next];
+    }
+    int count(){
+        return _next;
+    }
+};
+
+class express{
+    private:
+    Stack s;
+    char* pStr;
+    int len;
+    public:
+    express(char* ptr){
+        pStr = ptr;
+        len = strlen(pStr);
+    }
+    float operation(float f1, float f2, char op){
+        switch (op){
+            case '+': return f1 + f2; break;
+            case '-': return f1 - f2; break;
+            case '*': return f1 * f2; break;
+            case '/': return f1 / f2; break;
+        }
+        return 0;
+    }
+    bool isOperand(char po){
+        return po == '+' || po == '-' || po == '*' || po == '/';
+    }
+    void parse(){
+        char secondab, temp[MAX];
+        float secondif, secval, buf;
+        int k, j;
+        for (j = 0, k = 0; j < len; j++){
+            if (isdigit(pStr[j]) || pStr[j] == ','){
+                temp[k++] = pStr[j];
+            }
+            else{
+                temp[k] = '\0';
+                k = 0;
+                buf = stof(temp);
+                s.push(new CHIS(buf));
+                if (!isOperand(pStr[j])){
+                    cout << "\n" << "Некорректный ввод!";
+                    exit(1);
+                }
+                if (s.count() == 1){
+                    s.push(new Operand(pStr[j]));
+                }
+                else{
+                    secondif = s.pop()->getNumber();
+                    secondab = s.pop()->getOperand();
+                    if ((pStr[j] == '*' || pStr[j] == '/') && (secondab =='+' || secondab == '-')){
+                        s.push(new Operand(secondif));
+                        s.push(new CHIS(secondif));
+                    }
+                    else{
+                        secval = s.pop()->getNumber();
+                        s.push(new CHIS(operation(secval, secondif,
+                        secondif)));
+                    }
+                    s.push(new Operand(pStr[j]));
+                }
+            }
+        }
+        temp[k] = '\0';
+        buf = stof(temp);
+        s.push(new CHIS(buf));
+    }
+    float solve(){
+        float lastval, secval;
+        char oper, oper2;
+        while (s.count() > 2){
+            lastval = s.pop()->getNumber();
+            oper = s.pop()->getOperand();
+            secval = s.pop()->getNumber();
+            if (s.count() != 0){
+                oper2 = s.pop()->getOperand();
+                if (oper2 == '-'){
+                    secval *= -1;
+                    oper2 = '+';
+                }
+                s.push(new Operand(oper2));
+            }
+            s.push(new CHIS(operation(secval, lastval, oper)));
+        }
+        return s.pop()->getNumber();
+    }
+};
+
+//для задания 9
+class horse{
+    private:
+    const track* ptrTrack; //указатель для отслеживания
+    int horse_number; //this horse's number
+    float distance_run; //distance run so far - пробег до сих пор
+    public:
+    horse(){}
+    //create the horse
+    horse(const int n, const track* ptrT)
+    : horse_number(n), ptrTrack(ptrT){
+        distance_run = 1 + rand() % 100;
+    }
+    float dist(){
+        return distance_run;
+    }
+};
+
+class track{
+    protected:
+    horse* hArray[maxHorses]; //array of ptrs-to-horses
+    int total_horses; //total number of horses - общее количество лошадей
+    int horse_count; //horses created so far - лошадей создано до сих пор
+    public:
+    track(int nH)
+    : total_horses(nH), horse_count(0){
+        total_horses = //not more than 7 horses
+        (total_horses > maxHorses) ? maxHorses : total_horses;
+        for (int j = 0; j < total_horses; j++){
+            hArray[j] = new horse(horse_count++, this);
+        }
+    }
+    ~track(){
+        for (int j = 0; j < total_horses; j++){
+            delete hArray[j];
+        }
+    }
+    int tot_horses(){
+        return total_horses;
+    }
+};
+
+class comHorse : public track, public horse{
+    float max_distance, pred_max_distance;
+    public:
+    comHorse(int nH) : track(nH){
+        max_distance = 0.0;
+        pred_max_distance = 0.0;
+        for (int i = 0; i < nH; i++){
+            if (hArray[i]->dist() > max_distance){
+                pred_max_distance = max_distance;
+                max_distance = hArray[i]->dist();
+            }
+        }
+    }
+    void test_horse(int index){
+        if (hArray[index]->dist() < max_distance){
+            cout << "Лошадь не первая! Ускорится!\n";
+        }
+        else{
+            if ((hArray[index]->dist() - 7.0) >= pred_max_distance){
+                cout << "Лошадь первая! Ускоряться не следует\n";
+            }
+            else{
+                cout << "Лошадь первая! Но соперник на подходе, ускоряемся!\n";
+            }
+        }
+    }
+    void output_distance(){
+        for (int i = 0; i < total_horses; i++){
+            cout << "Лошадь " << i + 1 << ": " << hArray[i]->dist() <<
+            endl;
+        }
+    }
+};
+
+//для задания 10
+struct link{ //one element of list
+    int data; //data item
+    link* next; //pointer to next link
+};
+
+class linklist{ //a list of links
+    private:
+    link* first; //pointer to first link
+    public:
+    linklist(){ //no-argument constructor
+        first = NULL;
+    }
+    linklist(const linklist& list){ //no-argument constructor
+        if (list.first == NULL) return;
+        first = new link();
+        first->data = list.first->data;
+        link* cur1 = first;
+        link* cur2 = list.first;
+        while (cur2->next != NULL){
+            cur2 = cur2->next;
+            cur1->next = new link();
+            cur1 = cur1->next;
+            cur1->data = cur2->data;
+        }
+    }
+    linklist& operator=(const linklist& list){
+        *this = linklist(list);
+        return *this;
+    }
+    ~linklist(); //destructor
+    void additem(int d); //add data item (one link)
+    void INFO(); //display all links
+};
+
+void linklist::additem(int d){ //add data item
+    link* newlink = new link; //make a new link
+    newlink->data = d; //give it data
+    newlink->next = first; //it points to next link
+    first = newlink; //now first points to this
+}
+
+void linklist::INFO(){ //display all links
+    link* current = first; //set ptr to first link
+    while (current != NULL){ //quit on last link
+        cout << " " << current->data; //print data
+        current = current->next; //move to next link
+    }
+}
+
+linklist::~linklist(){ //destructor
+    link* current = first; //set ptr to first link
+    cout << "\n" << "Удаление списка." << "\n";
+    while (current != NULL){ //quit on last link
+        link* temp = current; //save ptr to this link
+        current = current->next; //get ptr to next link
+        cout << temp->data << " ";
+        delete temp; //delete this link
+    }
+}
+
+//задание 2
 void z2(){
     zadanie(2);
     publication* pubarr[100]; //array of ptrs to pubs
@@ -214,6 +505,7 @@ void z2(){
     cout << endl;
 }
 
+//задание 3
 void z3(){
     zadanie(3);
     Distance dist1(3, 6.0); //make some distances
@@ -228,6 +520,7 @@ void z3(){
     cout << endl;
 }
 
+//задание 4
 void z4(){
     zadanie(4);
     const int ASIZE = 10;
@@ -253,6 +546,7 @@ void z4(){
     cout << endl;
 }
 
+//задание 5
 void z5(){
     zadanie(5);
     publication* pubarr[100]; //array of ptrs to pubs
@@ -277,6 +571,7 @@ void z5(){
     cout << endl;
 }
 
+//задание 6
 void z6(){
     zadanie(6);
     CASH first, second;
@@ -306,6 +601,7 @@ void z6(){
     while (po != 'n');
 }
 
+//задание 7
 void z7(){
     zadanie(7);
     CASH KOS;
@@ -319,6 +615,79 @@ void z7(){
     while (po != 'n');
 }
 
+//задание 8
+void z8(){
+    zadanie(8);
+    char po;
+    char string[MAX];
+    cout << "\n" << "Введите выражние, используя только цифры и знаки действий.";
+    do{
+        cout << "\n" << "Ввод: "; cin >> string;
+        express* otp = new express(string);
+        otp->parse();
+        cout << "\n" << "Ответ: "
+        << otp->solve();
+        delete otp;
+        cout << "\n" << "Хотите продолжить(Введиет 'y' or 'n')? ";
+        cin >> po;
+    } 
+    while (po == 'y');
+}
+
+//задание 9
+void z9(){
+    zadanie(9);
+    srand(time(0)); // рандомизация генератора случайных чисел
+    int total; //get data from user
+    cout << "\nEnter number of horses (1 to 7): "; cin >> total;
+    comHorse cH(total);
+    cH.output_distance();
+    cout << endl;
+    for (int i = 0; i < total; i++){
+        cH.test_horse(i);
+    }
+cout << endl;
+
+}
+
+//задание 10
+void z10(){
+    zadanie(10);
+    linklist* li = new linklist(); //make linked list
+    cout << "\n" << "Список: " << "\n";
+    li->additem(25); //add four items to list
+    li->additem(36);
+    li->additem(49);
+    li->additem(64);
+    li->INFO(); //display entire list
+    linklist copy = *li;
+    delete li;
+    cout << "\n" << "Проверка. " << "\n";
+    copy.INFO();
+    cout << endl;
+}
+
+//задание 11
+void z11(){
+    zadanie(11);
+    char po;
+    char string[MAX];
+    cout << "\n" << "Введите выражние, используя только цифры и знаки действий.";
+    do{
+    cout << "\n" << "Ввод: "; cin >> string;
+    express* otp = new express(string);
+    otp->parse();
+    cout << "\n" << "Ответ: "
+    << otp->solve();
+    delete otp;
+    cout << "\n" << "Хотите продолжить(Введиет 'y' or 'n')? ";
+    cin >> po;
+    } 
+    while (po == 'y');
+}
+
+
+
 int main(){
-    z2(); z3(); z4(); z5(); z6(); z7();
+    z2(); z3(); z4(); z5(); z6(); z7(); z8(); z9(); z10(); z11();
 }
